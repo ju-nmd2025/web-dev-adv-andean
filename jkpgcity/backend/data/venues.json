@@ -1,0 +1,65 @@
+[
+  {
+    "name": "Shooters Biljard & Sportbar",
+    "category": "Bar & Club",
+    "address": "Trädgårdsgatan 4, 553 16 Jönköping",
+    "district": "Väster",
+    "url": "https://www.shootersjkpg.se/"
+  },
+  {
+    "name": "Hörnan",
+    "category": "Bar & Club",
+    "address": "Trädgårdsgatan 4, 553 16 Jönköping",
+    "district": "Väster",
+    "url": "https://www.hornanjkpg.se/"
+  },
+  {
+    "name": "Karlssons Salonger",
+    "category": "Bar & Club",
+    "address": "Västra Storgatan 9, 553 15 Jönköping",
+    "district": "Väster",
+    "url": null
+  },
+  {
+    "name": "Flamingo Bar",
+    "category": "Bar & Club",
+    "address": "Västra Storgatan 25, Jönköping",
+    "district": "Väster",
+    "url": "https://www.barflamingo.se/"
+  },
+  {
+    "name": "Bongo Bar Jönköping",
+    "category": "Bar & Club",
+    "address": "Tändsticksgränd 13, 553 15 Jönköping",
+    "district": "Tändsticksområdet",
+    "url": "https://jonkoping.bongobar.se/"
+  },
+  {
+    "name": "Akademien Nightclub",
+    "category": "Bar & Club",
+    "address": "Svavelsticksgränd 17, 553 15 Jönköping",
+    "district": "Tändsticksområdet",
+    "url": "https://akademien.one/"
+  },
+  {
+    "name": "Frimans Night Club",
+    "category": "Bar & Club",
+    "address": "Östra Storgatan 2, 553 21 Jönköping",
+    "district": "Öster",
+    "url": "https://frimanscafebistro.se/frimans-nattklubb/"
+  },
+  {
+    "name": "Twin City – Dinner & Drinks",
+    "category": "Bar & Club",
+    "address": "Hamnparken 3, 553 15 Jönköping",
+    "district": "Väster",
+    "url": "https://www.twincity.nu/"
+  },
+  {
+    "name": "O'Learys Jönköping",
+    "category": "Bar & Club",
+    "address": "Västra Storgatan 16, 553 15 Jönköping",
+    "district": "Väster",
+    "url": "https://olearys.com/sv-se/joenkoeping/"
+  }
+]
