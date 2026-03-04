@@ -11,4 +11,3 @@ services:
      - dbdata:/var/lib/postgresql/data
 volumes:
  dbdata:
-Run from jkpgcity/:
