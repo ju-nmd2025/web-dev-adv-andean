@@ -10,6 +10,10 @@ function createVenueCard(v) {
   const info = document.createElement("p");
   info.textContent = `${v.district ?? "Unknown district"} • ${v.address}`;
 
+  const img = document.createElement("img");
+  img.src = v.image_url ?? "img/bar-img.jpg";
+  card.appendChild(img);
+
   card.appendChild(title);
   card.appendChild(info);
 
@@ -36,7 +40,7 @@ function renderVenues(venues) {
   });
 }
 
-fetch("http://localhost:3000/api/venues")
+fetch("/api/venues")
   .then((response) => response.json())
   .then((venues) => renderVenues(venues))
   .catch(() => {

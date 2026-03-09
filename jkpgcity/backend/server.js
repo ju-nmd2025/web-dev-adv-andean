@@ -11,16 +11,16 @@ app.use(express.json()); // from labs: needed for POST/PUT later; safe to keep n
 app.use(express.static(path.resolve("../frontend")));
 
 const pool = new Pool({
- host: "localhost",
- port: 5432,
- user: "postgres",
- password: "postgres",
- database: "jkpgcity",
+  host: "localhost",
+  port: 5432,
+  user: "anniewagstrom",
+  password: "",
+  database: "jkpgcity",
 });
 
 app.get("/api/venues", (req, res) => {
  pool.query(
-   "SELECT id, name, category, address, district, url FROM venues ORDER BY name",
+   "SELECT id, name, category, address, district, url, image_url FROM venues ORDER BY name",
    (err, result) => {
      if (err) {
        res.status(500).json({ error: "Database query failed" });
