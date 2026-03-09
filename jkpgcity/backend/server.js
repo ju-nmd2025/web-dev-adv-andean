@@ -13,8 +13,8 @@ app.use(express.static(path.resolve("../frontend")));
 const pool = new Pool({
   host: "localhost",
   port: 5432,
-  user: "anniewagstrom",
-  password: "",
+  user: "postgres",
+  password: "postgres",
   database: "jkpgcity",
 });
 
