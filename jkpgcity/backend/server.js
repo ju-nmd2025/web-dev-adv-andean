@@ -19,16 +19,16 @@ const pool = new Pool({
 });
 
 app.get("/api/venues", (req, res) => {
- pool.query(
-   "SELECT id, name, category, address, district, url, image_url FROM venues ORDER BY name",
-   (err, result) => {
-     if (err) {
-       res.status(500).json({ error: "Database query failed" });
-       return;
-     }
+  pool.query(
+    "SELECT id, name, category, address, district, url, image_url FROM venues ORDER BY name",
+    (err, result) => {
+      if (err) {
+        res.status(500).json({ error: "Database query failed" });
+        return;
+      }
      res.json(result.rows);
-   }
- );
+    }
+  );
 });
 
 app.listen(3000, () => {

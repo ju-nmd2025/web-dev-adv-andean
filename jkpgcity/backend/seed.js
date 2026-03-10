@@ -33,7 +33,7 @@ async function seed() {
   for (const v of venues) {
     await pool.query(
       `INSERT INTO venues (name, category, address, district, url, image_url)
-       VALUES ($1, $2, $3, $4, $5, $6)`,
+      VALUES ($1, $2, $3, $4, $5, $6)`,
       [v.name, v.category, v.address, v.district, v.url, v.image]
     );
   }
