@@ -1,4 +1,6 @@
 const listEl = document.getElementById("list");
+const sortSelect = document.getElementById("sort"); // NEW: get the <select id="sort"> from HTML
+let allVenues = []; // NEW: store venues here so we can re-sort without refetching
 
 //this function receives one venue object from the API 
 function createVenueCard(v) {
@@ -46,11 +48,40 @@ function renderVenues(venues) {
     });        
 }
 
+// NEW: sort venues in JavaScript (Grade 4 sorting requirement)
+// mode "name" = alphabetical; mode "district" = district, then name
+function sortVenues(venues, mode) {
+    const copy = [...venues]; //make a copy so we don't change the original array
+
+    if (mode === "district") {
+        copy.sort((a, b) => {
+            const da = (a.district ?? "zzz").toLowerCase(); //null districts go last
+            const db = (b.district ?? "zzz").toLowerCase();
+
+            if (da !== db) return da.localeCompare(db); //sort by district first
+            return a.name.toLowerCase().localeCompare(b.name.toLowerCase()); //then by name
+        });
+        return copy;
+    }
+
+    //default: sort by name
+    copy.sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()));
+    return copy;
+}
+
 //fetch data from backend; this is also called a promise chain
 fetch("/api/venues") //this sends a request to your express server
     .then((response) => response.json()) //convert response to json; aka converts API into a JavaScript object
-    .then((venues) => renderVenues(venues)) //then the venue list is passed to the renderVenues function
+    .then((venues) => {
+        allVenues = venues; // NEW: store the venues so we can re-sort later
+        renderVenues(sortVenues(allVenues, sortSelect.value)); // NEW: render sorted list
+    })
     //this is just in case something goes wrong, the page shows a message
     .catch(() => {
         listEl.textContent = "Failed to load venues.";
     });
+
+// NEW: when user changes the dropdown, re-sort and re-render (no new fetch needed)
+sortSelect.addEventListener("change", () => {
+    renderVenues(sortVenues(allVenues, sortSelect.value));
+});
