@@ -40,7 +40,66 @@ app.get("/api/venues", (req, res) => {
         }
     );
 });
+// ADD: create a new venue
+app.post("/api/venues", (req, res) => {
+  const { name, category, address, district, url, image_url } = req.body;
 
+  if (!name || !category || !address) {
+    return res.status(400).json({ error: "name, category, address are required" });
+  }
+
+  pool.query(
+    `INSERT INTO venues (name, category, address, district, url, image_url)
+     VALUES ($1, $2, $3, $4, $5, $6)
+     RETURNING id, name, category, address, district, url, image_url`,
+    [name, category, address, district ?? null, url ?? null, image_url ?? null],
+    (err, result) => {
+      if (err) return res.status(500).json({ error: "Database insert failed" });
+      res.status(201).json(result.rows[0]);
+    }
+  );
+});
+
+// EDIT: update an existing venue by id
+app.put("/api/venues/:id", (req, res) => {
+  const id = Number(req.params.id);
+  const { name, category, address, district, url, image_url } = req.body;
+
+  if (!Number.isFinite(id)) {
+    return res.status(400).json({ error: "Invalid id" });
+  }
+  if (!name || !category || !address) {
+    return res.status(400).json({ error: "name, category, address are required" });
+  }
+
+  pool.query(
+    `UPDATE venues
+     SET name = $1, category = $2, address = $3, district = $4, url = $5, image_url = $6
+     WHERE id = $7
+     RETURNING id, name, category, address, district, url, image_url`,
+    [name, category, address, district ?? null, url ?? null, image_url ?? null, id],
+    (err, result) => {
+      if (err) return res.status(500).json({ error: "Database update failed" });
+      if (result.rowCount === 0) return res.status(404).json({ error: "Venue not found" });
+      res.json(result.rows[0]);
+    }
+  );
+});
+
+// DELETE: remove a venue by id
+app.delete("/api/venues/:id", (req, res) => {
+  const id = Number(req.params.id);
+
+  if (!Number.isFinite(id)) {
+    return res.status(400).json({ error: "Invalid id" });
+  }
+
+  pool.query("DELETE FROM venues WHERE id = $1", [id], (err, result) => {
+    if (err) return res.status(500).json({ error: "Database delete failed" });
+    if (result.rowCount === 0) return res.status(404).json({ error: "Venue not found" });
+    res.status(204).send();
+  });
+});
 //this starts the express server and tells it to run on port 3000
 app.listen(3000, () => {
     console.log("Server running on http://localhost:3000");
