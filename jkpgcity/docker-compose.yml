@@ -1,13 +1,18 @@
-services:
- db:
-   image: postgres:16
-   environment:
-     POSTGRES_USER: postgres
-     POSTGRES_PASSWORD: postgres
-     POSTGRES_DB: jkpgcity
-   ports:
-     - "5432:5432"
-   volumes:
-     - dbdata:/var/lib/postgresql/data
-volumes:
- dbdata:
+services: #tells docker what containers below I want yu to use 
+#could be database, backend, frontend, redis (only db here)
+  db: 
+    image: postgres:16 #download and run the PostgreSQL version 16 image (image is a ready-made blueprint for a container, v16 because modern stable version and pairs well with Node)
+    environment: 
+      POSTGRES_USER: postgres #creates database user
+      POSTGRES_PASSWORD: postgres #sets the password
+      POSTGRES_DB: jkpgcity #creates the database automatically when PostgreSQL starts
+    ports:
+      - "5432:5432" #it means HOST_PORT:CONTAINER_PORT; this line exposes it to the computer for Node backend to connect using localhost:5432
+    volumes: #this is about saving your data, without this, when Docker stops running the database disappears
+      - dbdata:/var/lib/postgresql/data #this is just the storage folder where the db data can be found
+
+volumes: #this tells docker to create a named storage volume called dbdata, docker manages it automatically
+  dbdata:
+
+#how to run the file:
+# docker compose up -d
