@@ -88,7 +88,7 @@ function sortVenues(venues, mode) {
 }
 
 // sends new venue to the backend
- addBtn.onclick = () => {
+function addVenue () {
     const name = document.getElementById("input-name").value.trim();
     const category = document.getElementById("input-category").value.trim();
     const address = document.getElementById("input-address").value.trim();
@@ -114,7 +114,8 @@ function sortVenues(venues, mode) {
             document.getElementById("input-url").value = "";
             document.getElementById("input-image").value = "";
         });
-};
+}
+addBtn.onclick = addVenue;
 
 fetch("/api/venues")
     .then((response) => response.json())
@@ -171,6 +172,6 @@ function saveEdit(id) {
             allVenues = allVenues.map(v => v.id === id ? updated : v);
             renderVenues(sortVenues(allVenues, sortSelect.value));
             addBtn.textContent = "Add Venue";
-            addBtn.onclick = null;
+            addBtn.onclick = addVenue;
         });
 }
