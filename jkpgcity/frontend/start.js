@@ -1,87 +1,176 @@
 const listEl = document.getElementById("list");
-const sortSelect = document.getElementById("sort"); // NEW: get the <select id="sort"> from HTML
-let allVenues = []; // NEW: store venues here so we can re-sort without refetching
+const sortSelect = document.getElementById("sort");
+const sortToggle = document.getElementById("sort-toggle");
+const sortBox = document.getElementById("sort-box");
+const addBtn = document.getElementById("add-btn");
+let allVenues = [];
 
-//this function receives one venue object from the API 
+// Toggle sort box visibility
+sortToggle.addEventListener("click", () => {
+  const isHidden = sortBox.style.display === "none";
+  sortBox.style.display = isHidden ? "block" : "none";
+  sortToggle.textContent = isHidden ? "Sort ▲" : "Sort ▼";
+});
+
 function createVenueCard(v) {
-    const card = document.createElement("div"); //creates the card container
-    card.classList.add("card"); //adds card as a class for css
+    const card = document.createElement("div");
+    card.classList.add("card");
 
-    const title = document.createElement("h3"); //creates venue title
-    //textContent sets the text inside the newly created element
-    title.textContent = v.name; //makes so that the title is taken from the API
+    const title = document.createElement("h3");
+    title.textContent = v.name;
 
     const info = document.createElement("p");
-    info.textContent = `${v.district ?? "Unknown district"} • ${v.address}`; //`${...}` = insert variable; ?? = nullish value if lefthand is null or undefined return righthand value
+    info.textContent = `${v.district ?? "Unknown district"} • ${v.address}`;
 
     const img = document.createElement("img");
     img.src = v.image_url ?? "img/bar-img.jpg";
-    card.appendChild(img); //appendChild builds the card structure so that img goes first, then title, then info
+    card.appendChild(img);
 
     card.appendChild(title);
     card.appendChild(info);
 
-    //this checks if the website has a website
+   const bottomRow = document.createElement("div");
+    bottomRow.classList.add("card-bottom");
+
     if (v.url) {
         const link = document.createElement("a");
-        link.textContent= "Website";
-        link.target = "_blank"; //this opens link in a new tab
-        link.rel = "noreferrer"; //this prevents the new page from accessing your page; security practice
-
-        //this is a ternary operator condition ? value_if_true : value_i_false
-        link.href= v.url.startsWith("http")
+        link.textContent = "Website";
+        link.target = "_blank";
+        link.rel = "noreferrer";
+        link.href = v.url.startsWith("http")
         ? v.url
-        : `https://${v.url.replace(/^\//, "")}`; //this whole thing means if the string starts with /,then remove it
-        //^ this means AT THE START OF THE STRING ONLY
-
-        card.appendChild(link);
-
+        : `https://${v.url.replace(/^\//, "")}`;
+        bottomRow.appendChild(link);
     }
 
-    return card; //this gives the completed HTML element to the client/caller
+    const deleteBtn = document.createElement("button");
+    deleteBtn.textContent = "Delete";
+    deleteBtn.onclick = () => deleteVenue(v.id);
+
+    const editBtn = document.createElement("button");
+    editBtn.textContent = "Edit";
+    editBtn.onclick = () => fillFormForEdit(v);
+
+    const btnWrapper = document.createElement("div");
+    btnWrapper.classList.add("card-buttons");
+    btnWrapper.appendChild(deleteBtn);
+    btnWrapper.appendChild(editBtn);
+
+    bottomRow.appendChild(btnWrapper);
+    card.appendChild(bottomRow);
+
+    return card;
 }
 
 function renderVenues(venues) {
-    listEl.textContent = ""; //removes any existing content before rendering new card
+    listEl.textContent = "";
     venues.forEach((v) => {
-        listEl.appendChild(createVenueCard(v)); //for each venue, create a card, then add it to the page one by one
+        listEl.appendChild(createVenueCard(v));
     });        
 }
 
-// NEW: sort venues in JavaScript (Grade 4 sorting requirement)
-// mode "name" = alphabetical; mode "district" = district, then name
 function sortVenues(venues, mode) {
-    const copy = [...venues]; //make a copy so we don't change the original array
+    const copy = [...venues];
 
     if (mode === "district") {
         copy.sort((a, b) => {
-            const da = (a.district ?? "zzz").toLowerCase(); //null districts go last
+            const da = (a.district ?? "zzz").toLowerCase();
             const db = (b.district ?? "zzz").toLowerCase();
 
-            if (da !== db) return da.localeCompare(db); //sort by district first
-            return a.name.toLowerCase().localeCompare(b.name.toLowerCase()); //then by name
+            if (da !== db) return da.localeCompare(db);
+            return a.name.toLowerCase().localeCompare(b.name.toLowerCase());
         });
         return copy;
     }
 
-    //default: sort by name
     copy.sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()));
     return copy;
 }
 
-//fetch data from backend; this is also called a promise chain
-fetch("/api/venues") //this sends a request to your express server
-    .then((response) => response.json()) //convert response to json; aka converts API into a JavaScript object
-    .then((venues) => {
-        allVenues = venues; // NEW: store the venues so we can re-sort later
-        renderVenues(sortVenues(allVenues, sortSelect.value)); // NEW: render sorted list
+// sends new venue to the backend
+ addBtn.onclick = () => {
+    const name = document.getElementById("input-name").value.trim();
+    const category = document.getElementById("input-category").value.trim();
+    const address = document.getElementById("input-address").value.trim();
+    const district = document.getElementById("input-district").value.trim();
+    const url = document.getElementById("input-url").value.trim();
+    const image_url = document.getElementById("input-image").value.trim();
+
+    if (!name || !category || !address) return alert("Name, category and address are required");
+
+    fetch("/api/venues", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, category, address, district, url, image_url })
     })
-    //this is just in case something goes wrong, the page shows a message
+        .then(res => res.json())
+        .then(newVenue => {
+            allVenues.push(newVenue);
+            renderVenues(sortVenues(allVenues, sortSelect.value));
+            document.getElementById("input-name").value = "";
+            document.getElementById("input-category").value = "";
+            document.getElementById("input-address").value = "";
+            document.getElementById("input-district").value = "";
+            document.getElementById("input-url").value = "";
+            document.getElementById("input-image").value = "";
+        });
+};
+
+fetch("/api/venues")
+    .then((response) => response.json())
+    .then((venues) => {
+        allVenues = venues;
+        renderVenues(sortVenues(allVenues, sortSelect.value));
+    })
     .catch(() => {
         listEl.textContent = "Failed to load venues.";
     });
 
-// NEW: when user changes the dropdown, re-sort and re-render (no new fetch needed)
 sortSelect.addEventListener("change", () => {
     renderVenues(sortVenues(allVenues, sortSelect.value));
 });
+
+function deleteVenue(id) {
+    if (!confirm("Are you sure you want to delete this venue?")) return;
+
+    fetch(`/api/venues/${id}`, { method: "DELETE" })
+    .then(() => {
+        allVenues = allVenues.filter(v => v.id !== id);
+        renderVenues(sortVenues(allVenues, sortSelect.value));
+    });
+}
+
+function fillFormForEdit(v) {
+    document.getElementById("input-name").value = v.name;
+    document.getElementById("input-category").value = v.category;
+    document.getElementById("input-address").value = v.address;
+    document.getElementById("input-district").value = v.district ?? "";
+    document.getElementById("input-url").value = v.url ?? "";
+    document.getElementById("input-image").value = v.image_url ?? "";
+    document.getElementById("add-form").scrollIntoView({ behavior: "smooth" });
+
+    addBtn.textContent = "Save Changes";
+    addBtn.onclick = () => saveEdit(v.id);
+}
+
+function saveEdit(id) {
+    const name = document.getElementById("input-name").value.trim();
+    const category = document.getElementById("input-category").value.trim();
+    const address = document.getElementById("input-address").value.trim();
+    const district = document.getElementById("input-district").value.trim();
+    const url = document.getElementById("input-url").value.trim();
+    const image_url = document.getElementById("input-image").value.trim();
+
+    fetch(`/api/venues/${id}`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, category, address, district, url, image_url })
+    })
+        .then(res => res.json())
+        .then(updated => {
+            allVenues = allVenues.map(v => v.id === id ? updated : v);
+            renderVenues(sortVenues(allVenues, sortSelect.value));
+            addBtn.textContent = "Add Venue";
+            addBtn.onclick = null;
+        });
+}

@@ -5,6 +5,7 @@ body {
   background-color: #1e081b;
   color: #f0f0f0;
   bottom: 200px;
+  overflow-x: hidden;
 }
 
 h1 {
@@ -21,6 +22,61 @@ nav {
 
 span {
   padding-left: 15px;
+}
+
+.sort-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  padding-right: 2rem;
+  background-color: #1e081b;
+}
+
+#sort {
+  background-color: #1e081b;
+  color: white;
+  border: 1px solid purple;
+  padding: 0.3rem 0.6rem;  
+  border-radius: 4px;     
+  cursor: pointer;          
+}
+
+#sort-toggle {
+  background-color: #1e081b;
+  color: white;
+  border: 1px solid purple;
+  padding: 0.3rem 0.8rem;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+#add-form {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 1.5rem;
+  width: 100%;
+}
+
+#add-form input {
+  background-color: #1e081b;
+  color: white;
+  border: 1px solid purple;
+  padding: 0.4rem 0.8rem;
+  border-radius: 4px;
+  width: 180px;
+}
+
+#add-btn {
+  background-color: #1e081b;
+  color: white;
+  border: 1px solid purple;
+  padding: 0.4rem 0.8rem;
+  border-radius: 4px;
+  cursor: pointer;
 }
 
 .banner {
@@ -69,4 +125,16 @@ span {
   object-fit: cover;
   margin-bottom: 10px;
   border-radius: 5px;
+}
+
+.card-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0.5rem;
+}
+
+.card-buttons {
+  display: flex;
+  gap: 0.5rem;
 }
