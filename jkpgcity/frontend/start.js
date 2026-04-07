@@ -28,6 +28,7 @@ const slides = [
       "Data collection & analysis plan",
       "Expected patterns",
       "Next steps",
+      "Questions",
     ],
   },
   {
@@ -134,26 +135,28 @@ const slides = [
     topLabel: "METHODOLOGY",
     title: "Study setup",
     variant: "setup",
+    subtitle:
+      "Controlled comparison between manual and AI-assisted webpage layout design",
     setup: [
       {
-        icon: "target",
-        title: "Design",
-        text: "Within-subjects experimental design",
+        icon: "panels-top-left",
+        title: "Format",
+        text: "Two separate groups; one run per participant",
       },
       {
         icon: "users",
         title: "Participants",
-        text: "Complete tasks in both conditions",
+        text: "10 design students, with 5 in each group",
       },
       {
-        icon: "boxes",
-        title: "Order",
-        text: "Randomized to control learning effects",
+        icon: "scale-custom",
+        title: "Fair comparison",
+        text: "Groups balanced by self-reported Figma experience",
       },
       {
-        icon: "database",
-        title: "Data",
-        text: "Multiple collection methods",
+        icon: "clipboard-check",
+        title: "Before start",
+        text: "Questionnaire plus a quick warm-up check",
       },
     ],
   },
@@ -250,6 +253,58 @@ const slides = [
       },
     ],
   },
+  {
+    id: 11,
+    topLabel: "PREDICTIONS",
+    title: "Expected patterns",
+    variant: "patterns",
+    bullets: [
+      "The AI-assisted condition may help participants get started faster and complete work earlier in the task.",
+      "However, AI-assisted participants may spend more time checking, correcting, and refining the generated output.",
+      "The manual condition may be slower overall, but may provide a more direct and controlled workflow.",
+      "AI assistance may reduce some aspects of effort, but may also create mixed effects on workload, confidence, and perceived control as designers evaluate and adjust AI-generated results.",
+    ],
+    chartTitle: "Predicted Workflow Pattern",
+    series: [
+      { label: "Manual", colorClass: "series-blue", values: [82, 76, 70] },
+      { label: "AI-Assisted", colorClass: "series-cyan", values: [40, 60, 66] },
+    ],
+  },
+  {
+    id: 12,
+    topLabel: "TIMELINE",
+    title: "Next steps",
+    variant: "timeline",
+    steps: [
+      {
+        n: 1,
+        title: "Finalise participant recruitment",
+        text: "Confirm the remaining participants, sessions, and practical study logistics.",
+      },
+      {
+        n: 2,
+        title: "Conduct experiment and collect data",
+        text: "Run both conditions, capture recordings, and gather post-task reflections.",
+      },
+      {
+        n: 3,
+        title: "Complete the analysis",
+        text: "Compare performance, workload, confidence, perceived control, and workflow patterns.",
+      },
+      {
+        n: 4,
+        title: "Finalise the thesis and defence preparation",
+        text: "Complete the remaining chapters, polish the presentation, and prepare the final discussion.",
+      },
+    ],
+  },
+  {
+    id: 13,
+    topLabel: "END OF PRESENTATION",
+    title: "Thank you!",
+    variant: "thanks",
+    subtitle: "Questions?",
+  },
 ];
 
 function runSlideAssertions(slidesToCheck) {
@@ -341,25 +396,33 @@ function iconTile(icon, gradient, extraClass = "") {
   `;
 }
 
+function reveal(content, delay = 0, extraClass = "") {
+  return `<div class="reveal ${extraClass}" style="--delay:${delay}ms">${content}</div>`;
+}
+
 function renderCover(slide) {
   return `
     <section class="slide slide-cover">
       <div class="slide-max">
-        ${labelPill(slide.topLabel)}
-        <h1 class="cover-title">${nl2br(slide.title)}</h1>
-        <p class="cover-subtitle">${escapeHtml(slide.subtitle)}</p>
-        ${accentLine("wide")}
+        ${reveal(labelPill(slide.topLabel), 20)}
+        ${reveal(`<h1 class="cover-title">${nl2br(slide.title)}</h1>`, 120)}
+        ${reveal(`<p class="cover-subtitle">${escapeHtml(slide.subtitle)}</p>`, 220)}
+        ${reveal(accentLine("wide"), 300)}
       </div>
 
       <div class="cover-meta">
         ${slide.meta
           .map(
-            ([label, value, accent]) => `
+            ([label, value, accent], index) =>
+              reveal(
+                `
               <div class="cover-meta-row">
                 <span class="meta-label">${escapeHtml(label)}:</span>
                 <span class="${accent ? "meta-accent" : ""}">${escapeHtml(value)}</span>
               </div>
-            `
+            `,
+                360 + index * 70
+              )
           )
           .join("")}
       </div>
@@ -376,7 +439,7 @@ function renderToc(slide) {
 
   return `
     <section class="slide slide-toc">
-      <h2 class="section-title center">${escapeHtml(slide.title)}</h2>
+      ${reveal(`<h2 class="section-title center">${escapeHtml(slide.title)}</h2>`, 40)}
       <div class="toc-grid">
         ${rows
           .map(
@@ -385,12 +448,15 @@ function renderToc(slide) {
                 ${pair
                   .map(
                     (item, idx) => `
-                      ${glassCard(
+                      ${reveal(
+                        glassCard(
                         `
                           <div class="toc-number">${String(rowIndex * 2 + idx + 1).padStart(2, "0")}</div>
                           <div class="toc-text">${escapeHtml(item)}</div>
                         `,
                         "toc-card"
+                      ),
+                        120 + (rowIndex * 2 + idx) * 55
                       )}
                     `
                   )
@@ -407,18 +473,21 @@ function renderToc(slide) {
 function renderIntro(slide) {
   return `
     <section class="slide slide-standard">
-      ${labelPill(slide.topLabel)}
-      <h2 class="section-title">${escapeHtml(slide.title)}</h2>
-      ${accentLine()}
+      ${reveal(labelPill(slide.topLabel), 20)}
+      ${reveal(`<h2 class="section-title">${escapeHtml(slide.title)}</h2>`, 100)}
+      ${reveal(accentLine(), 170)}
       <div class="three-grid intro-grid">
         ${slide.cards
-          .map((card) =>
-            glassCard(
+          .map((card, index) =>
+            reveal(
+              glassCard(
               `
                 ${iconTile(card.icon, card.gradient)}
                 <p class="intro-copy">${escapeHtml(card.text)}</p>
               `,
               "intro-card"
+            ),
+              230 + index * 90
             )
           )
           .join("")}
@@ -431,40 +500,40 @@ function renderFramework(slide) {
   return `
     <section class="slide slide-framework">
       <div class="center-stack">
-        ${labelPill(slide.topLabel)}
-        <h2 class="section-title center">${escapeHtml(slide.title)}</h2>
+        ${reveal(labelPill(slide.topLabel), 20)}
+        ${reveal(`<h2 class="section-title center">${escapeHtml(slide.title)}</h2>`, 110)}
       </div>
 
       <div class="framework-stage">
-        <div class="framework-line"></div>
+        ${reveal(`<div class="framework-line"></div>`, 180)}
 
-        ${glassCard(
+        ${reveal(glassCard(
           `
             ${iconMarkup(slide.nodes[0].icon, "framework-node-icon")}
             <div class="framework-node-title">${nl2br(slide.nodes[0].title)}</div>
           `,
           "framework-node framework-left"
-        )}
+        ), 260)}
 
-        ${glassCard(
+        ${reveal(glassCard(
           `
             ${iconMarkup(slide.nodes[1].icon, "framework-node-icon")}
             <div class="framework-node-title">${nl2br(slide.nodes[1].title)}</div>
           `,
           "framework-node framework-top"
-        )}
+        ), 200)}
 
-        <div class="framework-center">
+        ${reveal(`<div class="framework-center">
           ${iconMarkup("lightbulb", "framework-center-icon")}
-        </div>
+        </div>`, 320)}
 
-        ${glassCard(
+        ${reveal(glassCard(
           `
             ${iconMarkup(slide.nodes[2].icon, "framework-node-icon")}
             <div class="framework-node-title">${nl2br(slide.nodes[2].title)}</div>
           `,
           "framework-node framework-right"
-        )}
+        ), 380)}
       </div>
     </section>
   `;
@@ -475,12 +544,12 @@ function renderPurpose(slide) {
 
   return `
     <section class="slide slide-standard">
-      ${labelPill(slide.topLabel)}
-      <h2 class="section-title">${escapeHtml(slide.title)}</h2>
-      ${accentLine()}
+      ${reveal(labelPill(slide.topLabel), 20)}
+      ${reveal(`<h2 class="section-title">${escapeHtml(slide.title)}</h2>`, 100)}
+      ${reveal(accentLine(), 170)}
 
       <div class="purpose-grid">
-        ${glassCard(
+        ${reveal(glassCard(
           `
             ${iconTile("target", "gradient-cyan")}
             <div class="purpose-heading">Purpose</div>
@@ -492,12 +561,12 @@ function renderPurpose(slide) {
             </div>
           `,
           "purpose-card"
-        )}
+        ), 220)}
 
         <div class="purpose-question-list">
           ${slide.questions
             .map((question, index) =>
-              glassCard(
+              reveal(glassCard(
                 `
                   <div class="question-index-wrap">
                     <div class="question-index">${String(index + 1).padStart(2, "0")}</div>
@@ -508,7 +577,7 @@ function renderPurpose(slide) {
                   <div class="question-text">${escapeHtml(question)}</div>
                 `,
                 "purpose-question-card"
-              )
+              ), 290 + index * 80)
             )
             .join("")}
         </div>
@@ -521,15 +590,15 @@ function renderScope(slide) {
   return `
     <section class="slide slide-standard centered-intro">
       <div class="center-stack">
-        ${labelPill(slide.topLabel)}
-        <h2 class="section-title center">${escapeHtml(slide.title)}</h2>
-        ${accentLine()}
+        ${reveal(labelPill(slide.topLabel), 20)}
+        ${reveal(`<h2 class="section-title center">${escapeHtml(slide.title)}</h2>`, 100)}
+        ${reveal(accentLine(), 170)}
       </div>
 
       <div class="three-grid scope-grid">
         ${slide.columns
-          .map((column) =>
-            glassCard(
+          .map((column, index) =>
+            reveal(glassCard(
               `
                 ${iconTile(column.icon, column.gradient)}
                 <div class="scope-title">${escapeHtml(column.title)}</div>
@@ -548,7 +617,7 @@ function renderScope(slide) {
                 </ul>
               `,
               `scope-card ${column.tone}`
-            )
+            ), 240 + index * 90)
           )
           .join("")}
       </div>
@@ -557,35 +626,77 @@ function renderScope(slide) {
 }
 
 function renderSetup(slide) {
+  const leftItems = slide.setup.slice(0, 2);
+  const rightItems = slide.setup.slice(2, 4);
+
   return `
     <section class="slide slide-standard centered-intro">
       <div class="center-stack">
-        ${labelPill(slide.topLabel)}
-        <h2 class="section-title center">${escapeHtml(slide.title)}</h2>
+        ${reveal(labelPill(slide.topLabel), 20)}
+        ${reveal(`<h2 class="section-title center">${escapeHtml(slide.title)}</h2>`, 100)}
+        ${reveal(`<p class="setup-subtitle">${escapeHtml(slide.subtitle ?? "")}</p>`, 170)}
       </div>
 
-      <div class="setup-grid">
-        ${slide.setup
-          .map(
-            (item, index) => `
-              ${glassCard(
-                `
-                  <div class="setup-icon-ring">
+      <div class="setup-stage">
+        <div class="setup-column">
+          ${leftItems
+            .map(
+              (item, index) =>
+                reveal(
+                  glassCard(
+                    `
+                  <div class="setup-mini-icon">
                     ${iconMarkup(item.icon, "setup-icon")}
                   </div>
                   <div class="setup-title">${escapeHtml(item.title)}</div>
                   <div class="setup-copy">${escapeHtml(item.text)}</div>
                 `,
-                "setup-card"
-              )}
-              ${
-                index < slide.setup.length - 1
-                  ? `<div class="setup-connector" aria-hidden="true"></div>`
-                  : ""
-              }
-            `
-          )
-          .join("")}
+                    "setup-card setup-card-side"
+                  ),
+                  240 + index * 90
+                )
+            )
+            .join("")}
+        </div>
+
+        ${reveal(
+          `
+            <div class="setup-centerpiece">
+              <div class="setup-orb-glow"></div>
+              <div class="setup-orb-shell">
+                <div class="setup-orb-core"></div>
+              </div>
+              <div class="setup-center-label">Study design</div>
+            </div>
+          `,
+          230
+        )}
+
+        <div class="setup-column">
+          ${rightItems
+            .map(
+              (item, index) =>
+                reveal(
+                  glassCard(
+                    `
+                  <div class="setup-mini-icon">
+                    ${iconMarkup(item.icon, "setup-icon")}
+                  </div>
+                  <div class="setup-title">${escapeHtml(item.title)}</div>
+                  <div class="setup-copy">${escapeHtml(item.text)}</div>
+                `,
+                    "setup-card setup-card-side"
+                  ),
+                  330 + index * 90
+                )
+            )
+            .join("")}
+        </div>
+
+        <div class="setup-link setup-link-left-top" aria-hidden="true"></div>
+        <div class="setup-link setup-link-left-bottom" aria-hidden="true"></div>
+        <div class="setup-link setup-link-right-top" aria-hidden="true"></div>
+        <div class="setup-link setup-link-right-bottom" aria-hidden="true"></div>
       </div>
     </section>
   `;
@@ -595,14 +706,14 @@ function renderConditions(slide) {
   return `
     <section class="slide slide-standard centered-intro">
       <div class="center-stack">
-        ${labelPill(slide.topLabel)}
-        <h2 class="section-title center">${escapeHtml(slide.title)}</h2>
+        ${reveal(labelPill(slide.topLabel), 20)}
+        ${reveal(`<h2 class="section-title center">${escapeHtml(slide.title)}</h2>`, 100)}
       </div>
 
       <div class="conditions-grid">
         ${slide.conditions
-          .map((condition) =>
-            glassCard(
+          .map((condition, index) =>
+            reveal(glassCard(
               `
                 <div class="condition-head">
                   <div class="condition-number ${condition.circle}">${condition.n}</div>
@@ -623,19 +734,19 @@ function renderConditions(slide) {
                 </ul>
               `,
               `condition-card ${condition.tone}`
-            )
+            ), 180 + index * 100)
           )
           .join("")}
       </div>
 
-      ${glassCard(
+      ${reveal(glassCard(
         `
           <span class="footer-highlight">Counterbalanced presentation order</span>
           <span class="footer-dot">•</span>
           <span>Same design brief and requirements</span>
         `,
         "conditions-footer"
-      )}
+      ), 390)}
     </section>
   `;
 }
@@ -644,15 +755,15 @@ function renderTask(slide) {
   return `
     <section class="slide slide-standard centered-intro">
       <div class="center-stack">
-        ${labelPill(slide.topLabel)}
-        <h2 class="section-title center">${escapeHtml(slide.title)}</h2>
+        ${reveal(labelPill(slide.topLabel), 20)}
+        ${reveal(`<h2 class="section-title center">${escapeHtml(slide.title)}</h2>`, 100)}
       </div>
 
       <div class="task-grid">
         <div class="task-list">
           ${slide.tasks
-            .map((item) =>
-              glassCard(
+            .map((item, index) =>
+              reveal(glassCard(
                 `
                   <div class="task-card-row">
                     ${iconMarkup(item.icon, "task-icon")}
@@ -663,12 +774,12 @@ function renderTask(slide) {
                   </div>
                 `,
                 "task-card"
-              )
+              ), 180 + index * 80)
             )
             .join("")}
         </div>
 
-        <div class="task-timer-wrap">
+        ${reveal(`<div class="task-timer-wrap">
           <div class="task-timer-ring">
             <div class="task-timer-core">
               ${iconMarkup("timer", "timer-icon")}
@@ -677,7 +788,7 @@ function renderTask(slide) {
               <div class="timer-sub">${escapeHtml(slide.durationSub)}</div>
             </div>
           </div>
-        </div>
+        </div>`, 280)}
       </div>
     </section>
   `;
@@ -687,23 +798,183 @@ function renderData(slide) {
   return `
     <section class="slide slide-standard centered-intro">
       <div class="center-stack">
-        ${labelPill(slide.topLabel)}
-        <h2 class="section-title center">${escapeHtml(slide.title)}</h2>
+        ${reveal(labelPill(slide.topLabel), 20)}
+        ${reveal(`<h2 class="section-title center">${escapeHtml(slide.title)}</h2>`, 100)}
       </div>
 
       <div class="data-grid">
         ${slide.dataCards
-          .map((card) =>
-            glassCard(
+          .map((card, index) =>
+            reveal(glassCard(
               `
                 ${iconTile(card.icon, card.gradient)}
                 <div class="data-title">${escapeHtml(card.title)}</div>
                 <div class="data-copy">${escapeHtml(card.text)}</div>
               `,
               "data-card"
-            )
+            ), 180 + index * 80)
           )
           .join("")}
+      </div>
+    </section>
+  `;
+}
+
+function renderPatterns(slide) {
+  const labels = ["Early", "Mid", "Late"];
+  const maxValue = 90;
+  const manualPoints = slide.series[0].values
+    .map((value, index) => `${index * 50},${100 - (value / maxValue) * 100}`)
+    .join(" ");
+  const aiPoints = slide.series[1].values
+    .map((value, index) => `${index * 50},${100 - (value / maxValue) * 100}`)
+    .join(" ");
+
+  return `
+    <section class="slide slide-standard centered-intro">
+      <div class="center-stack">
+        ${reveal(labelPill(slide.topLabel), 20)}
+        ${reveal(`<h2 class="section-title center">${escapeHtml(slide.title)}</h2>`, 100)}
+      </div>
+
+      <div class="patterns-grid">
+        <div class="patterns-list">
+          ${slide.bullets
+            .map(
+              (bullet, index) =>
+                reveal(
+                  glassCard(
+                    `
+                      <div class="pattern-bullet-row">
+                        <span class="pattern-dot"></span>
+                        <p class="pattern-copy">${escapeHtml(bullet)}</p>
+                      </div>
+                    `,
+                    "pattern-card"
+                  ),
+                  180 + index * 75
+                )
+            )
+            .join("")}
+        </div>
+
+        ${reveal(
+          glassCard(
+            `
+              <div class="pattern-chart-title">${escapeHtml(slide.chartTitle)}</div>
+              <div class="chart-shell">
+                <div class="chart-y-axis">
+                  <span>80</span>
+                  <span>60</span>
+                  <span>40</span>
+                  <span>20</span>
+                  <span>0</span>
+                </div>
+                <div class="chart-stage">
+                  <div class="chart-grid-lines">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                  </div>
+                  <svg viewBox="0 0 100 100" class="pattern-chart-svg" preserveAspectRatio="none" aria-hidden="true">
+                    <defs>
+                      <linearGradient id="manual-fill" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stop-color="rgba(59,130,246,0.82)"></stop>
+                        <stop offset="100%" stop-color="rgba(59,130,246,0.02)"></stop>
+                      </linearGradient>
+                      <linearGradient id="ai-fill" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stop-color="rgba(20,184,166,0.82)"></stop>
+                        <stop offset="100%" stop-color="rgba(20,184,166,0.02)"></stop>
+                      </linearGradient>
+                    </defs>
+                    <path d="M 0 100 L ${manualPoints} L 100 100 Z" class="area-manual"></path>
+                    <path d="M 0 100 L ${aiPoints} L 100 100 Z" class="area-ai"></path>
+                    <polyline points="${manualPoints}" class="line-manual"></polyline>
+                    <polyline points="${aiPoints}" class="line-ai"></polyline>
+                  </svg>
+                  <div class="chart-x-axis">
+                    ${labels.map((label) => `<span>${label}</span>`).join("")}
+                  </div>
+                </div>
+              </div>
+              <div class="chart-legend">
+                ${slide.series
+                  .map(
+                    (series) => `
+                      <div class="legend-item">
+                        <span class="legend-dot ${series.colorClass}"></span>
+                        <span>${escapeHtml(series.label)}</span>
+                      </div>
+                    `
+                  )
+                  .join("")}
+              </div>
+            `,
+            "pattern-chart-card"
+          ),
+          280
+        )}
+      </div>
+    </section>
+  `;
+}
+
+function renderTimeline(slide) {
+  return `
+    <section class="slide slide-standard">
+      ${reveal(labelPill(slide.topLabel), 20)}
+      ${reveal(`<h2 class="section-title">${escapeHtml(slide.title)}</h2>`, 100)}
+      ${reveal(accentLine(), 170)}
+
+      <div class="timeline-layout">
+        <div class="timeline-rail" aria-hidden="true"></div>
+        <div class="timeline-stack">
+          ${slide.steps
+            .map(
+              (step, index) => `
+                <div class="timeline-row">
+                  ${reveal(
+                    `<div class="timeline-marker">${step.n}</div>`,
+                    220 + index * 90
+                  )}
+                  ${reveal(
+                    glassCard(
+                      `
+                        <div class="timeline-card-title">${escapeHtml(step.title)}</div>
+                        <div class="timeline-card-copy">${escapeHtml(step.text)}</div>
+                      `,
+                      "timeline-card"
+                    ),
+                    260 + index * 90
+                  )}
+                </div>
+              `
+            )
+            .join("")}
+        </div>
+      </div>
+    </section>
+  `;
+}
+
+function renderThanks(slide) {
+  const dots = Array.from({ length: 28 }, (_, index) => {
+    const left = ((index * 37) % 100) + 1;
+    const top = ((index * 19) % 88) + 4;
+    const delay = (index % 7) * 0.6;
+    const duration = 5 + (index % 5);
+    return `<span class="thanks-dot" style="left:${left}%;top:${top}%;--float-delay:${delay}s;--float-duration:${duration}s"></span>`;
+  }).join("");
+
+  return `
+    <section class="slide slide-thanks">
+      <div class="thanks-particles" aria-hidden="true">${dots}</div>
+      <div class="thanks-inner">
+        ${reveal(labelPill(slide.topLabel), 20)}
+        ${reveal(`<h2 class="thanks-title">${escapeHtml(slide.title)}</h2>`, 120)}
+        ${reveal(`<div class="thanks-subtitle">${escapeHtml(slide.subtitle)}</div>`, 250)}
+        ${reveal(accentLine("short"), 320)}
       </div>
     </section>
   `;
@@ -731,6 +1002,12 @@ function renderSlide(slide) {
       return renderTask(slide);
     case "data":
       return renderData(slide);
+    case "patterns":
+      return renderPatterns(slide);
+    case "timeline":
+      return renderTimeline(slide);
+    case "thanks":
+      return renderThanks(slide);
     default:
       return "";
   }
@@ -738,9 +1015,14 @@ function renderSlide(slide) {
 
 function renderCurrentSlide() {
   const slide = slides[current];
+  slideContent.classList.remove("slide-content-enter");
   slideContent.innerHTML = renderSlide(slide);
   currentSlideEl.textContent = String(current + 1);
   progressBar.style.width = `${((current + 1) / slides.length) * 100}%`;
+
+  requestAnimationFrame(() => {
+    slideContent.classList.add("slide-content-enter");
+  });
 
   if (window.lucide && typeof window.lucide.createIcons === "function") {
     window.lucide.createIcons({
