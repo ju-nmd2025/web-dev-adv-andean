@@ -936,56 +936,37 @@ textarea {
 
 .conditions-stage {
   width: 100%;
-  margin-top: 18px;
+  margin-top: 34px;
   padding: 0;
   overflow: hidden;
 }
 
 .conditions-hero-title {
-  margin: 0 0 14px;
-  color: var(--cyan);
-  font-family: "Space Grotesk", sans-serif;
-  font-size: clamp(26px, 2vw, 34px);
-  font-weight: 700;
-  line-height: 1.05;
-  letter-spacing: -0.05em;
-  text-transform: uppercase;
+  max-width: 760px;
+  margin: 14px auto 0;
+  color: #8ea0c8;
+  font-family: "Manrope", sans-serif;
+  font-size: clamp(16px, 1.1vw, 19px);
+  font-weight: 400;
+  line-height: 1.45;
+  letter-spacing: 0;
+  text-transform: none;
   text-align: center;
 }
 
 .conditions-board {
-  position: relative;
   display: grid;
-  grid-template-columns: 1fr 0.78fr 1fr;
+  grid-template-columns: 1fr 0.58fr 1fr;
   min-height: 520px;
   margin-top: 14px;
-  border-left: 1px solid rgba(34, 211, 238, 0.1);
-  border-right: 1px solid rgba(34, 211, 238, 0.1);
-  border-bottom: 1px solid rgba(34, 211, 238, 0.1);
-  background:
-    linear-gradient(to right, rgba(34, 211, 238, 0.08) 1px, transparent 1px);
-  background-size: 33.333% 100%;
-}
-
-.conditions-board::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 1px;
-  z-index: 5;
-  background: rgba(34, 211, 238, 0.1);
-  pointer-events: none;
-}
-
-.conditions-board::before {
-  left: 35.971%;
+  gap: 0;
+  align-items: center;
 }
 
 .condition-card {
   position: relative;
   z-index: 2;
-  padding: 26px 24px 24px;
+  padding: 0;
   color: var(--text);
   display: flex;
 }
@@ -1002,19 +983,16 @@ textarea {
 
 .condition-card-inner {
   width: min(100%, 420px);
-  padding: 20px 22px 24px;
+  padding: 24px 24px 28px;
   display: grid;
   align-content: start;
   justify-items: start;
   row-gap: 0;
   border-radius: 28px;
-  border: 1px solid rgba(34, 211, 238, 0.08);
-  background:
-    linear-gradient(to right, rgba(34, 211, 238, 0.06) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(34, 211, 238, 0.06) 1px, transparent 1px),
-    linear-gradient(180deg, rgba(13, 18, 31, 0.76), rgba(8, 11, 20, 0.86));
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: linear-gradient(180deg, rgba(16, 22, 36, 0.84), rgba(7, 11, 20, 0.9));
   box-shadow:
-    inset 0 0 0 1px rgba(255, 255, 255, 0.015),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.02),
     0 16px 40px rgba(0, 0, 0, 0.14);
 }
 
@@ -1101,12 +1079,10 @@ textarea {
 }
 
 .condition-cube-wrap {
-  position: absolute;
-  left: 33.333%;
-  top: 0;
+  position: relative;
   z-index: 3;
-  width: 33.333%;
-  height: 100%;
+  width: 100%;
+  height: 520px;
   display: grid;
   place-items: center;
   overflow: hidden;
@@ -1114,10 +1090,13 @@ textarea {
 }
 
 .condition-cube-container {
-  width: 100%;
-  height: 100%;
+  width: min(150%, 520px);
+  height: min(150%, 520px);
   display: grid;
   place-items: center;
+  border: 0;
+  box-shadow: none;
+  background: transparent;
 }
 
 .condition-cube-video {
@@ -1125,7 +1104,7 @@ textarea {
   height: 100%;
   object-fit: cover;
   mix-blend-mode: screen;
-  filter: drop-shadow(0 0 24px rgba(34, 211, 238, 0.12));
+  filter: none;
 }
 
 .footer-highlight {
@@ -1773,13 +1752,17 @@ textarea {
   }
 
   .conditions-board {
-    grid-template-columns: 1fr 0.72fr 1fr;
+    grid-template-columns: 1fr 0.52fr 1fr;
     min-height: 460px;
   }
 
   .condition-cube-wrap {
-    width: 220px;
-    height: 220px;
+    height: 460px;
+  }
+
+  .condition-cube-container {
+    width: min(155%, 420px);
+    height: min(155%, 420px);
   }
 
   .setup-stage {
@@ -1932,28 +1915,29 @@ textarea {
   .conditions-board {
     grid-template-columns: 1fr;
     min-height: 0;
-    background-size: 100% 1px, 100% 33.333%;
+    gap: 18px;
   }
 
   .condition-card {
-    padding: 20px 18px 22px;
     justify-content: flex-start;
   }
 
   .condition-card-left {
     grid-column: auto;
-    padding-bottom: 180px;
   }
 
   .condition-card-right {
     grid-column: auto;
-    padding-top: 180px;
   }
 
   .condition-cube-wrap {
-    top: 50%;
-    width: 190px;
-    height: 190px;
+    order: -1;
+    height: 240px;
+  }
+
+  .condition-cube-container {
+    width: min(145%, 280px);
+    height: min(145%, 280px);
   }
 
   .task-orbit-node {

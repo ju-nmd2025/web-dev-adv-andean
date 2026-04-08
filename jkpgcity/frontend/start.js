@@ -751,7 +751,6 @@ function renderSetup(slide) {
               <div class="setup-orb-shell">
                 <div class="setup-orb-core"></div>
               </div>
-              <div class="setup-center-label">Study design</div>
             </div>
           `,
           230
@@ -795,16 +794,10 @@ function renderConditions(slide) {
       <div class="center-stack">
         ${reveal(labelPill(slide.topLabel), 20)}
         ${reveal(`<h2 class="section-title center">${escapeHtml(slide.title)}</h2>`, 100)}
+        ${reveal(`<p class="conditions-hero-title">${escapeHtml(slide.headline ?? slide.title)}</p>`, 170)}
       </div>
 
       <div class="conditions-stage">
-        ${reveal(
-          `
-            <h3 class="conditions-hero-title">${escapeHtml(slide.headline ?? slide.title)}</h3>
-          `,
-          140
-        )}
-
         ${reveal(
           `
             <div class="conditions-board">
