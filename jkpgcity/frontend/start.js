@@ -819,7 +819,7 @@ function renderConditions(slide) {
 
               <div class="condition-cube-wrap" aria-hidden="true">
                 <div class="condition-cube-container">
-                  <video class="condition-cube-video" autoplay muted playsinline preload="auto" src="./img/copy_DBA6C485-17B5-4AA9-8AFD-6B23A910B5D6.mov"></video>
+                  <video class="condition-cube-video" autoplay muted playsinline preload="auto" src="./img/conditions-video.mov"></video>
                 </div>
               </div>
 
