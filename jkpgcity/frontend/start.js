@@ -19,16 +19,11 @@ const slides = [
     variant: "toc",
     items: [
       "Introduction",
-      "Theoretical framework",
-      "Purpose & Research questions",
-      "Scope and limitations",
-      "Study setup",
-      "Conditions",
-      "Task and time limit",
-      "Data collection & analysis plan",
-      "Expected patterns",
-      "Next steps",
-      "Questions",
+      "Theoretical Framework",
+      "Purpose & research questions",
+      "Design, task, conditions",
+      "Methods",
+      "Scope, next steps + Q&A",
     ],
   },
   {
@@ -135,8 +130,6 @@ const slides = [
     topLabel: "METHODOLOGY",
     title: "Study setup",
     variant: "setup",
-    subtitle:
-      "Controlled comparison between manual and AI-assisted webpage layout design",
     setup: [
       {
         icon: "panels-top-left",
@@ -165,7 +158,6 @@ const slides = [
     topLabel: "COMPARISON",
     title: "Conditions",
     variant: "conditions",
-    headline: "Original Figma tool\nvs Figma Make",
     conditions: [
       {
         n: 1,
@@ -209,6 +201,98 @@ const slides = [
     duration: "20",
     durationLabel: "Minutes",
     durationSub: "Minute limit",
+    orbitImages: [
+      {
+        src: "./img/JU_Hero-startsida_1.jpg",
+        ring: "outer",
+        size: 70,
+        angle: 334,
+        duration: 40,
+        delay: -5,
+        offset: 10,
+        position: "54% 40%",
+      },
+      {
+        src: "./img/VInnare-2025.jpg",
+        ring: "outer",
+        size: 62,
+        angle: 26,
+        duration: 40,
+        delay: -18,
+        offset: 62,
+        position: "50% 40%",
+      },
+      {
+        src: "./img/_JU_7909.webp",
+        ring: "outer",
+        size: 54,
+        angle: 78,
+        duration: 40,
+        delay: -24,
+        offset: 114,
+        position: "58% 40%",
+      },
+      {
+        src: "./img/_JU_7909.webp",
+        ring: "mid",
+        size: 60,
+        angle: 322,
+        duration: 30,
+        delay: -9,
+        offset: 4,
+        position: "55% 38%",
+      },
+      {
+        src: "./img/puff_ansokan.jpg",
+        ring: "mid",
+        size: 56,
+        angle: 194,
+        duration: 30,
+        delay: -15,
+        offset: 38,
+        position: "56% 42%",
+      },
+      {
+        src: "./img/JU_Hero-startsida_1.jpg",
+        ring: "mid",
+        size: 52,
+        angle: 86,
+        duration: 30,
+        delay: -21,
+        offset: 72,
+        position: "70% 44%",
+      },
+      {
+        src: "./img/springinspi.jpg",
+        ring: "mid",
+        size: 48,
+        angle: 138,
+        duration: 30,
+        delay: -11,
+        offset: 106,
+        position: "52% 42%",
+      },
+      {
+        src: "./img/VInnare-2025.jpg",
+        ring: "outer",
+        size: 42,
+        angle: 296,
+        duration: 40,
+        delay: -16,
+        offset: 152,
+        position: "62% 34%",
+      },
+      {
+        src: "./img/puff_ansokan.jpg",
+        ring: "outer",
+        size: 42,
+        angle: 110,
+        duration: 40,
+        delay: -6,
+        offset: 198,
+        position: "58% 38%",
+      },
+    ],
   },
   {
     id: 10,
@@ -425,7 +509,10 @@ function renderToc(slide) {
 
   return `
     <section class="slide slide-toc">
-      ${reveal(`<h2 class="section-title center">${escapeHtml(slide.title)}</h2>`, 40)}
+      <div class="center-stack">
+        ${reveal(`<h2 class="section-title center">${escapeHtml(slide.title)}</h2>`, 40)}
+        ${reveal(accentLine(), 110)}
+      </div>
       <div class="toc-grid">
         ${columns
           .map(
@@ -579,41 +666,48 @@ function renderPurpose(slide) {
   const icons = ["target", "activity", "boxes"];
 
   return `
-    <section class="slide slide-standard">
-      ${reveal(labelPill(slide.topLabel), 20)}
-      ${reveal(`<h2 class="section-title">${escapeHtml(slide.title)}</h2>`, 100)}
-      ${reveal(accentLine(), 170)}
+    <section class="slide slide-standard centered-intro">
+      <div class="center-stack">
+        ${reveal(labelPill(slide.topLabel), 20)}
+        ${reveal(`<h2 class="section-title center">${escapeHtml(slide.title)}</h2>`, 100)}
+        ${reveal(accentLine(), 170)}
+      </div>
 
-      <div class="purpose-grid">
-        ${reveal(glassCard(
+      <div class="purpose-layout">
+        ${reveal(
+          glassCard(
           `
-            ${iconTile("target", "gradient-cyan")}
-            <div class="purpose-heading">Purpose</div>
-            ${accentLine("short")}
+            <div class="purpose-topline">Purpose</div>
+            <div class="purpose-heading">Research Aim</div>
             <p class="purpose-copy">${escapeHtml(slide.purpose)}</p>
-            <div class="purpose-footnote">
+            <div class="purpose-footnote purpose-footnote-center">
               <span class="purpose-dot"></span>
               Core research objective
             </div>
           `,
           "purpose-card"
-        ), 220)}
+        ),
+          220
+        )}
 
-        <div class="purpose-question-list">
+        <div class="purpose-question-grid">
           ${slide.questions
             .map((question, index) =>
-              reveal(glassCard(
+              reveal(
+                glassCard(
                 `
-                  <div class="question-index-wrap">
-                    <div class="question-index">${String(index + 1).padStart(2, "0")}</div>
+                  <div class="question-card-top">
                     <div class="question-icon-box">
                       ${iconMarkup(icons[index], "question-icon")}
                     </div>
+                    <div class="question-index">RQ${index + 1}</div>
                   </div>
                   <div class="question-text">${escapeHtml(question)}</div>
                 `,
                 "purpose-question-card"
-              ), 290 + index * 80)
+              ),
+                290 + index * 80
+              )
             )
             .join("")}
         </div>
@@ -670,7 +764,7 @@ function renderSetup(slide) {
       <div class="center-stack">
         ${reveal(labelPill(slide.topLabel), 20)}
         ${reveal(`<h2 class="section-title center">${escapeHtml(slide.title)}</h2>`, 100)}
-        ${reveal(`<p class="setup-subtitle">${escapeHtml(slide.subtitle ?? "")}</p>`, 170)}
+        ${reveal(accentLine(), 170)}
       </div>
 
       <div class="setup-stage">
@@ -702,7 +796,6 @@ function renderSetup(slide) {
               <div class="setup-orb-shell">
                 <div class="setup-orb-core"></div>
               </div>
-              <div class="setup-center-label">Study design</div>
             </div>
           `,
           230
@@ -746,16 +839,10 @@ function renderConditions(slide) {
       <div class="center-stack">
         ${reveal(labelPill(slide.topLabel), 20)}
         ${reveal(`<h2 class="section-title center">${escapeHtml(slide.title)}</h2>`, 100)}
+        ${reveal(accentLine(), 170)}
       </div>
 
       <div class="conditions-stage">
-        ${reveal(
-          `
-            <h3 class="conditions-hero-title">${escapeHtml(slide.headline ?? slide.title)}</h3>
-          `,
-          140
-        )}
-
         ${reveal(
           `
             <div class="conditions-board">
@@ -781,7 +868,7 @@ function renderConditions(slide) {
 
               <div class="condition-cube-wrap" aria-hidden="true">
                 <div class="condition-cube-container">
-                  <video class="condition-cube-video" autoplay muted playsinline preload="auto" src="./img/copy_DBA6C485-17B5-4AA9-8AFD-6B23A910B5D6.mov"></video>
+                  <video class="condition-cube-video" autoplay muted playsinline preload="auto" src="./img/conditions-video.mov"></video>
                 </div>
               </div>
 
@@ -819,6 +906,7 @@ function renderTask(slide) {
       <div class="center-stack">
         ${reveal(labelPill(slide.topLabel), 20)}
         ${reveal(`<h2 class="section-title center">${escapeHtml(slide.title)}</h2>`, 100)}
+        ${reveal(accentLine(), 170)}
       </div>
 
       <div class="task-spotlight">
@@ -828,6 +916,25 @@ function renderTask(slide) {
             <div class="task-ring task-ring-outer"></div>
             <div class="task-ring task-ring-mid"></div>
             <div class="task-ring task-ring-inner"></div>
+            ${slide.orbitImages
+              .map(
+                (item, index) => `
+                  <div
+                    class="task-orbit task-orbit-${escapeHtml(item.ring)}"
+                    style="--orbit-size:${item.size}px;--orbit-angle:${item.angle}deg;--orbit-duration:${item.duration}s;--orbit-delay:${item.delay}s;--orbit-offset:${item.offset ?? 0}px"
+                  >
+                    <div class="task-orbit-node">
+                      <img
+                        class="task-orbit-image"
+                        src="${escapeHtml(item.src)}"
+                        alt=""
+                        style="object-position:${escapeHtml(item.position)}"
+                      />
+                    </div>
+                  </div>
+                `
+              )
+              .join("")}
             <div class="task-ring-core">
               <img class="task-ring-logo" src="./img/ju_logo_white.svg" alt="Jönköping University logo" />
             </div>
