@@ -509,7 +509,10 @@ function renderToc(slide) {
 
   return `
     <section class="slide slide-toc">
-      ${reveal(`<h2 class="section-title center">${escapeHtml(slide.title)}</h2>`, 40)}
+      <div class="center-stack">
+        ${reveal(`<h2 class="section-title center">${escapeHtml(slide.title)}</h2>`, 40)}
+        ${reveal(accentLine(), 110)}
+      </div>
       <div class="toc-grid">
         ${columns
           .map(
