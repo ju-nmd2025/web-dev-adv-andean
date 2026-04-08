@@ -459,86 +459,273 @@ textarea {
 .framework-stage {
   position: relative;
   width: 100%;
-  max-width: 1160px;
-  height: 410px;
-  margin: 28px auto 0;
+  max-width: 1260px;
+  height: 560px;
+  margin: 200px auto 0;
 }
 
-.framework-line {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 74%;
-  height: 2px;
-  transform: translate(-50%, -50%);
-  background: rgba(34, 211, 238, 0.45);
-  box-shadow: 0 0 20px rgba(34, 211, 238, 0.35);
+.slide-framework .label-pill {
+  margin-top: 100px;
 }
 
 .framework-node {
   position: absolute;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  width: 180px;
-  min-height: 180px;
-  padding: 18px;
+  display: grid;
+  gap: 14px;
+  width: 270px;
+  min-height: 172px;
+  padding: 24px 24px 26px;
   text-align: center;
+  background:
+    radial-gradient(circle at 16% 16%, rgba(192, 38, 211, 0.12), transparent 26%),
+    linear-gradient(180deg, rgba(34, 27, 58, 0.88), rgba(12, 12, 24, 0.95));
+  border-color: rgba(34, 211, 238, 0.16);
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.03),
+    0 26px 70px rgba(0, 0, 0, 0.34),
+    0 0 38px rgba(192, 38, 211, 0.08);
 }
 
-.framework-left {
-  left: 3%;
+.framework-stage-orbit::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -280px;
+  width: 760px;
+  height: 760px;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 34% 28%, rgba(255, 255, 255, 0.34), transparent 12%),
+    radial-gradient(circle at 46% 38%, rgba(186, 248, 255, 0.24), transparent 30%),
+    radial-gradient(circle at 52% 54%, rgba(34, 211, 238, 0.18), transparent 42%),
+    linear-gradient(180deg, rgba(214, 245, 255, 0.28), rgba(34, 211, 238, 0.2) 36%, rgba(59, 130, 246, 0.18) 68%, rgba(10, 26, 54, 0.08));
+  box-shadow:
+    0 0 110px rgba(34, 211, 238, 0.24),
+    0 0 220px rgba(34, 211, 238, 0.2),
+    0 0 320px rgba(59, 130, 246, 0.16),
+    0 0 420px rgba(34, 211, 238, 0.08),
+    inset 0 0 110px rgba(255, 255, 255, 0.06);
+  opacity: 0.8;
+  pointer-events: none;
+}
+
+.framework-stage-orbit::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.26) 1px, transparent 1px);
+  background-size: 14px 14px;
+  opacity: 0.08;
+  pointer-events: none;
+}
+
+.framework-orbit-grid {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center, rgba(255, 255, 255, 0.08) 0 1px, transparent 1px);
+  background-size: 18px 18px;
+  opacity: 0.1;
+  pointer-events: none;
+}
+
+.framework-orbit-path {
+  position: absolute;
+  left: 50%;
   top: 50%;
+  border: 1px solid rgba(120, 212, 255, 0.18);
+  border-radius: 50%;
+  box-shadow: 0 0 20px rgba(34, 211, 238, 0.08);
+  transform-origin: center;
+}
+
+.framework-orbit-path-horizontal {
+  width: 48%;
+  height: 84px;
+  transform: translate(-50%, -50%);
+}
+
+.framework-orbit-path-diagonal {
+  width: 150px;
+  height: 210px;
+  transform: translate(-50%, -50%) rotate(28deg);
+}
+
+.framework-orbit-path-diagonal-alt {
+  width: 150px;
+  height: 210px;
+  transform: translate(-50%, -50%) rotate(-28deg);
+}
+
+.framework-node-left {
+  left: 3%;
+  top: 34%;
   transform: translateY(-50%);
 }
 
-.framework-top {
+.framework-node-right {
+  right: 3%;
+  top: 34%;
+  transform: translateY(-50%);
+}
+
+.framework-node-bottom {
   left: 50%;
-  top: 13%;
-  width: 210px;
+  top: 78%;
+  bottom: auto;
   transform: translateX(-50%);
 }
 
-.framework-right {
-  right: 3%;
-  top: 50%;
-  transform: translateY(-50%);
+.framework-node-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.framework-node-chip {
+  display: inline-flex;
+  width: fit-content;
+  padding: 7px 14px;
+  border: 1px solid rgba(34, 211, 238, 0.2);
+  border-radius: 999px;
+  background: rgba(34, 211, 238, 0.08);
+  color: #7dd3fc;
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 .framework-node-icon {
-  margin-bottom: 10px;
   color: var(--cyan);
-  width: 36px;
-  height: 36px;
+  width: 32px;
+  height: 32px;
 }
 
 .framework-node-title {
   color: white;
   font-family: "Space Grotesk", sans-serif;
-  font-size: 22px;
+  font-size: 24px;
   font-weight: 700;
-  line-height: 1.25;
+  line-height: 1.18;
+  letter-spacing: -0.04em;
 }
 
 .framework-center {
+  display: none;
+}
+
+.framework-center-orb {
+  width: 210px;
+  height: 210px;
+}
+
+.framework-center-glow {
   position: absolute;
-  left: 50%;
-  top: 56%;
+  inset: -12%;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle, rgba(180, 240, 255, 0.9) 0%, rgba(34, 211, 238, 0.58) 30%, rgba(59, 130, 246, 0.2) 58%, transparent 76%);
+  filter: blur(18px);
+  opacity: 0.95;
+}
+
+.framework-center-shell {
+  position: relative;
+  z-index: 2;
   display: grid;
   place-items: center;
-  width: 160px;
-  height: 160px;
-  transform: translate(-50%, -50%);
-  border-radius: 999px;
-  background: var(--cyan);
-  color: white;
-  box-shadow: 0 0 60px rgba(34, 211, 238, 0.45);
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 35% 28%, rgba(255, 255, 255, 0.74), transparent 12%),
+    radial-gradient(circle at 68% 34%, rgba(255, 255, 255, 0.5), transparent 9%),
+    linear-gradient(180deg, rgba(214, 245, 255, 0.64), rgba(34, 211, 238, 0.4) 34%, rgba(59, 130, 246, 0.34) 62%, rgba(10, 26, 54, 0.64));
+  box-shadow:
+    inset 0 0 34px rgba(255, 255, 255, 0.24),
+    inset -12px -20px 40px rgba(12, 30, 78, 0.62),
+    0 0 60px rgba(34, 211, 238, 0.18);
+  overflow: hidden;
+  opacity: 0.7;
+}
+
+.framework-center-shell::before {
+  content: "";
+  position: absolute;
+  inset: 16px;
+  border-radius: 50%;
+  background:
+    repeating-linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.04) 0,
+      rgba(255, 255, 255, 0.04) 3px,
+      transparent 3px,
+      transparent 13px
+    );
+  opacity: 0.85;
+}
+
+.framework-center-rings {
+  position: absolute;
+  inset: 8%;
+  border: 1px solid rgba(191, 240, 255, 0.22);
+  border-radius: 50%;
+  transform: rotate(22deg) scaleX(1.08);
+}
+
+.framework-center-rings-alt {
+  inset: -6% 18%;
+  transform: rotate(-20deg) scaleY(0.72);
+}
+
+.framework-center-core {
+  position: absolute;
+  inset: 26%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.75), rgba(255, 255, 255, 0.06) 72%, transparent 100%);
+  filter: blur(4px);
 }
 
 .framework-center-icon {
-  width: 56px;
-  height: 56px;
+  position: relative;
+  z-index: 2;
+  width: 44px;
+  height: 44px;
+  color: white;
+  filter: drop-shadow(0 0 18px rgba(255, 255, 255, 0.3));
+}
+
+.framework-connector {
+  position: absolute;
+  height: 2px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, transparent, rgba(125, 211, 252, 0.82), transparent);
+  box-shadow: 0 0 18px rgba(34, 211, 238, 0.18);
+}
+
+.framework-connector-left {
+  left: 20.5%;
+  top: 40%;
+  width: 18%;
+  transform: rotate(-2deg);
+}
+
+.framework-connector-right {
+  right: 20.5%;
+  top: 40%;
+  width: 18%;
+  transform: rotate(2deg);
+}
+
+.framework-connector-bottom {
+  left: 50%;
+  top: 54%;
+  width: 12%;
+  bottom: auto;
+  transform: translateX(-50%) rotate(90deg);
 }
 
 .purpose-grid {
@@ -1749,6 +1936,14 @@ textarea {
     margin-top: 30px;
   }
 
+  .framework-stage-orbit::before,
+  .framework-stage-orbit::after,
+  .framework-orbit-grid,
+  .framework-orbit-path,
+  .framework-connector {
+    display: none;
+  }
+
   .timeline-layout,
   .timeline-row {
     grid-template-columns: 64px minmax(0, 1fr);
@@ -1759,17 +1954,17 @@ textarea {
     left: 31px;
   }
 
-  .framework-line,
   .framework-center {
-    display: none;
+    position: static;
+    transform: none;
+    margin: 0 auto;
   }
 
   .framework-node,
-  .framework-left,
-  .framework-top,
-  .framework-right {
+  .framework-node-left,
+  .framework-node-right,
+  .framework-node-bottom {
     position: static;
-    width: auto;
     transform: none;
   }
 }
@@ -1851,6 +2046,21 @@ textarea {
 
   .setup-subtitle {
     max-width: 100%;
+  }
+
+  .framework-center-orb {
+    width: 190px;
+    height: 190px;
+  }
+
+  .framework-node {
+    width: 100%;
+    min-height: 0;
+    padding: 18px 18px 20px;
+  }
+
+  .framework-node-title {
+    font-size: clamp(22px, 6vw, 28px);
   }
 
   .setup-column {

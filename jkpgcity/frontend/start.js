@@ -57,7 +57,7 @@ const slides = [
   {
     id: 4,
     topLabel: "FOUNDATION",
-    title: "Theoretical framework",
+    title: "Theoretical Framework",
     variant: "framework",
     nodes: [
       {
@@ -484,43 +484,92 @@ function renderIntro(slide) {
 }
 
 function renderFramework(slide) {
+  const leftNode = slide.nodes[1];
+  const rightNode = slide.nodes[2];
+  const bottomNode = slide.nodes[0];
+
   return `
     <section class="slide slide-framework">
       <div class="center-stack">
         ${reveal(labelPill(slide.topLabel), 20)}
         ${reveal(`<h2 class="section-title center">${escapeHtml(slide.title)}</h2>`, 110)}
+        ${reveal(accentLine(), 170)}
       </div>
 
-      <div class="framework-stage">
-        ${reveal(`<div class="framework-line"></div>`, 180)}
-
-        ${reveal(glassCard(
+      <div class="framework-stage framework-stage-orbit">
+        ${reveal(
           `
-            ${iconMarkup(slide.nodes[0].icon, "framework-node-icon")}
-            <div class="framework-node-title">${nl2br(slide.nodes[0].title)}</div>
+            <div class="framework-orbit-grid" aria-hidden="true"></div>
+            <div class="framework-orbit-path framework-orbit-path-horizontal"></div>
+            <div class="framework-orbit-path framework-orbit-path-diagonal"></div>
+            <div class="framework-orbit-path framework-orbit-path-diagonal-alt"></div>
           `,
-          "framework-node framework-left"
-        ), 260)}
+          180
+        )}
 
-        ${reveal(glassCard(
+        ${reveal(
+          glassCard(
+            `
+              <div class="framework-node-header">
+                <div class="framework-node-chip">Concept 01</div>
+                ${iconMarkup(leftNode.icon, "framework-node-icon")}
+              </div>
+              <div class="framework-node-title">${nl2br(leftNode.title)}</div>
+            `,
+            "framework-node framework-node-left"
+          ),
+          240
+        )}
+
+        ${reveal(
+          glassCard(
+            `
+              <div class="framework-node-header">
+                <div class="framework-node-chip">Concept 02</div>
+                ${iconMarkup(rightNode.icon, "framework-node-icon")}
+              </div>
+              <div class="framework-node-title">${nl2br(rightNode.title)}</div>
+            `,
+            "framework-node framework-node-right"
+          ),
+          320
+        )}
+
+        ${reveal(
+          glassCard(
+            `
+              <div class="framework-node-header">
+                <div class="framework-node-chip">Concept 03</div>
+                ${iconMarkup(bottomNode.icon, "framework-node-icon")}
+              </div>
+              <div class="framework-node-title">${nl2br(bottomNode.title)}</div>
+            `,
+            "framework-node framework-node-bottom"
+          ),
+          400
+        )}
+
+        ${reveal(
+          `<div class="framework-center framework-center-orb">
+            <div class="framework-center-glow"></div>
+            <div class="framework-center-shell">
+              <div class="framework-center-rings"></div>
+              <div class="framework-center-rings framework-center-rings-alt"></div>
+              <div class="framework-center-core"></div>
+              ${iconMarkup("lightbulb", "framework-center-icon")}
+            </div>
+          </div>`,
+          290
+        )}
+
+        ${reveal(
           `
-            ${iconMarkup(slide.nodes[1].icon, "framework-node-icon")}
-            <div class="framework-node-title">${nl2br(slide.nodes[1].title)}</div>
+            <div class="framework-connector framework-connector-left" aria-hidden="true"></div>
+            <div class="framework-connector framework-connector-right" aria-hidden="true"></div>
+            <div class="framework-connector framework-connector-bottom" aria-hidden="true"></div>
           `,
-          "framework-node framework-top"
-        ), 200)}
-
-        ${reveal(`<div class="framework-center">
-          ${iconMarkup("lightbulb", "framework-center-icon")}
-        </div>`, 320)}
-
-        ${reveal(glassCard(
-          `
-            ${iconMarkup(slide.nodes[2].icon, "framework-node-icon")}
-            <div class="framework-node-title">${nl2br(slide.nodes[2].title)}</div>
-          `,
-          "framework-node framework-right"
-        ), 380)}
+          350
+        )}
       </div>
     </section>
   `;
