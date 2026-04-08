@@ -35,17 +35,20 @@ const slides = [
       {
         icon: "sparkles",
         gradient: "gradient-cyan",
-        text: "Exploring the impact of AI assistance on web design workflows",
+        title: "AI in Design Workflows",
+        text: "Exploring the impact of AI assistance on web design workflows and contemporary design practice.",
       },
       {
         icon: "bar-chart-3",
         gradient: "gradient-blue",
-        text: "Comparing manual and AI-assisted approaches to webpage layout",
+        title: "Workflow Comparison",
+        text: "Comparing manual and AI-assisted approaches to webpage layout design in Figma.",
       },
       {
         icon: "users",
         gradient: "gradient-violet",
-        text: "Understanding how designers interact with AI tools",
+        title: "Design Process",
+        text: "Understanding how designers engage with AI tools through workflow, workload, and performance.",
       },
     ],
   },
@@ -297,32 +300,32 @@ const slides = [
   {
     id: 10,
     topLabel: "MEASUREMENT",
-    title: "Data collection",
+    title: "Data Collection",
     variant: "data",
     dataCards: [
       {
         icon: "trending-up",
         gradient: "gradient-blue",
         title: "Task performance",
-        text: "Time, completion, fidelity",
+        text: "Time-to-completion, completion rate, layout fidelity",
       },
       {
         icon: "activity",
         gradient: "gradient-violet",
         title: "Perceived workload",
-        text: "NASA-TLX overall plus dimensions",
+        text: "NASA-TLX overall score and dimensions",
       },
       {
         icon: "bar-chart-3",
         gradient: "gradient-orange-soft",
         title: "Workflow patterns",
-        text: "Reflections plus screen recordings",
+        text: "Open-ended reflections plus screen recordings",
       },
       {
         icon: "brain",
         gradient: "gradient-green",
         title: "Supplementary",
-        text: "Confidence plus perceived control",
+        text: "Confidence and perceived control ratings",
       },
     ],
   },
@@ -332,15 +335,10 @@ const slides = [
     title: "Expected patterns",
     variant: "patterns",
     bullets: [
-      "The AI-assisted condition may help participants get started faster and complete work earlier in the task.",
-      "However, AI-assisted participants may spend more time checking, correcting, and refining the generated output.",
-      "The manual condition may be slower overall, but may provide a more direct and controlled workflow.",
-      "AI assistance may reduce some aspects of effort, but may also create mixed effects on workload, confidence, and perceived control as designers evaluate and adjust AI-generated results.",
-    ],
-    chartTitle: "Predicted Workflow Pattern",
-    series: [
-      { label: "Manual", colorClass: "series-blue", values: [82, 76, 70] },
-      { label: "AI-Assisted", colorClass: "series-cyan", values: [40, 60, 66] },
+      "The AI-assisted condition may help participants get started faster",
+      "AI-assisted participants may spend more time on correcting and refining the generated output",
+      "The manual condition may be slower overall but may provide a more direct and controlled workflow",
+      "AI assistance may reduce some aspects of effort, but it may also create mixed effects on workload, confidence, and perceived control",
     ],
   },
   {
@@ -556,8 +554,14 @@ function renderIntro(slide) {
             reveal(
               glassCard(
               `
-                ${iconTile(card.icon, card.gradient)}
-                <p class="intro-copy">${escapeHtml(card.text)}</p>
+                <div class="intro-hero">
+                  <div class="intro-hero-arch"></div>
+                  ${iconTile(card.icon, card.gradient, "intro-icon-tile")}
+                </div>
+                <div class="intro-card-body">
+                  <div class="intro-title">${escapeHtml(card.title ?? "")}</div>
+                  <p class="intro-copy">${escapeHtml(card.text)}</p>
+                </div>
               `,
               "intro-card"
             ),
@@ -966,25 +970,55 @@ function renderTask(slide) {
 }
 
 function renderData(slide) {
+  const positions = [
+    "data-point-top-left",
+    "data-point-top-right",
+    "data-point-bottom-left",
+    "data-point-bottom-right",
+  ];
+
   return `
-    <section class="slide slide-standard centered-intro">
+    <section class="slide slide-standard centered-intro slide-data">
       <div class="center-stack">
         ${reveal(labelPill(slide.topLabel), 20)}
         ${reveal(`<h2 class="section-title center">${escapeHtml(slide.title)}</h2>`, 100)}
       </div>
 
-      <div class="data-grid">
+      <div class="data-orbit-stage">
+        ${reveal(
+          `
+            <div class="data-orbit-glow"></div>
+            <div class="data-orbit-core">
+              <div class="data-orbit-shell"></div>
+              <div class="data-orbit-ring data-orbit-ring-a"></div>
+              <div class="data-orbit-ring data-orbit-ring-b"></div>
+              <div class="data-orbit-ring data-orbit-ring-c"></div>
+            </div>
+          `,
+          150
+        )}
+
         ${slide.dataCards
-          .map((card, index) =>
-            reveal(glassCard(
+          .map((card, index) => {
+            const positionClass = positions[index] ?? "";
+
+            return reveal(
               `
-                ${iconTile(card.icon, card.gradient)}
-                <div class="data-title">${escapeHtml(card.title)}</div>
-                <div class="data-copy">${escapeHtml(card.text)}</div>
+                <article class="data-point ${positionClass}">
+                  <div class="data-point-line"></div>
+                  <div class="data-point-icon-wrap">
+                    <div class="data-point-icon-ring"></div>
+                    ${iconTile(card.icon, card.gradient, "data-point-icon")}
+                  </div>
+                  <div class="data-point-copy">
+                    <div class="data-title">${escapeHtml(card.title)}</div>
+                    <div class="data-copy">${escapeHtml(card.text)}</div>
+                  </div>
+                </article>
               `,
-              "data-card"
-            ), 180 + index * 80)
-          )
+              210 + index * 80
+            );
+          })
           .join("")}
       </div>
     </section>
@@ -992,14 +1026,12 @@ function renderData(slide) {
 }
 
 function renderPatterns(slide) {
-  const labels = ["Early", "Mid", "Late"];
-  const maxValue = 90;
-  const manualPoints = slide.series[0].values
-    .map((value, index) => `${index * 50},${100 - (value / maxValue) * 100}`)
-    .join(" ");
-  const aiPoints = slide.series[1].values
-    .map((value, index) => `${index * 50},${100 - (value / maxValue) * 100}`)
-    .join(" ");
+  const positions = [
+    "pattern-node-left",
+    "pattern-node-left-bottom",
+    "pattern-node-right-top",
+    "pattern-node-right",
+  ];
 
   return `
     <section class="slide slide-standard centered-intro">
@@ -1008,84 +1040,40 @@ function renderPatterns(slide) {
         ${reveal(`<h2 class="section-title center">${escapeHtml(slide.title)}</h2>`, 100)}
       </div>
 
-      <div class="patterns-grid">
+      <div class="patterns-stage">
+        ${reveal(
+          `
+            <div class="patterns-hub" aria-hidden="true">
+              <div class="patterns-hub-glow"></div>
+              <div class="patterns-hub-ring patterns-hub-ring-outer"></div>
+              <div class="patterns-hub-ring patterns-hub-ring-inner"></div>
+              <div class="patterns-hub-core"></div>
+            </div>
+          `,
+          160
+        )}
+
+        <div class="patterns-connector patterns-connector-top" aria-hidden="true"></div>
+        <div class="patterns-connector patterns-connector-left" aria-hidden="true"></div>
+        <div class="patterns-connector patterns-connector-right" aria-hidden="true"></div>
+        <div class="patterns-connector patterns-connector-bottom" aria-hidden="true"></div>
+
         <div class="patterns-list">
           ${slide.bullets
-            .map(
-              (bullet, index) =>
-                reveal(
-                  glassCard(
-                    `
-                      <div class="pattern-bullet-row">
-                        <span class="pattern-dot"></span>
-                        <p class="pattern-copy">${escapeHtml(bullet)}</p>
-                      </div>
-                    `,
-                    "pattern-card"
-                  ),
-                  180 + index * 75
-                )
+            .map((bullet, index) =>
+              reveal(
+                glassCard(
+                  `
+                    <div class="pattern-node-index">${String(index + 1).padStart(2, "0")}</div>
+                    <p class="pattern-copy">${escapeHtml(bullet)}</p>
+                  `,
+                  `pattern-card ${positions[index] ?? ""}`
+                ),
+                200 + index * 80
+              )
             )
             .join("")}
         </div>
-
-        ${reveal(
-          glassCard(
-            `
-              <div class="pattern-chart-title">${escapeHtml(slide.chartTitle)}</div>
-              <div class="chart-shell">
-                <div class="chart-y-axis">
-                  <span>80</span>
-                  <span>60</span>
-                  <span>40</span>
-                  <span>20</span>
-                  <span>0</span>
-                </div>
-                <div class="chart-stage">
-                  <div class="chart-grid-lines">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                  </div>
-                  <svg viewBox="0 0 100 100" class="pattern-chart-svg" preserveAspectRatio="none" aria-hidden="true">
-                    <defs>
-                      <linearGradient id="manual-fill" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="0%" stop-color="rgba(59,130,246,0.82)"></stop>
-                        <stop offset="100%" stop-color="rgba(59,130,246,0.02)"></stop>
-                      </linearGradient>
-                      <linearGradient id="ai-fill" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="0%" stop-color="rgba(20,184,166,0.82)"></stop>
-                        <stop offset="100%" stop-color="rgba(20,184,166,0.02)"></stop>
-                      </linearGradient>
-                    </defs>
-                    <path d="M 0 100 L ${manualPoints} L 100 100 Z" class="area-manual"></path>
-                    <path d="M 0 100 L ${aiPoints} L 100 100 Z" class="area-ai"></path>
-                    <polyline points="${manualPoints}" class="line-manual"></polyline>
-                    <polyline points="${aiPoints}" class="line-ai"></polyline>
-                  </svg>
-                  <div class="chart-x-axis">
-                    ${labels.map((label) => `<span>${label}</span>`).join("")}
-                  </div>
-                </div>
-              </div>
-              <div class="chart-legend">
-                ${slide.series
-                  .map(
-                    (series) => `
-                      <div class="legend-item">
-                        <span class="legend-dot ${series.colorClass}"></span>
-                        <span>${escapeHtml(series.label)}</span>
-                      </div>
-                    `
-                  )
-                  .join("")}
-              </div>
-            `,
-            "pattern-chart-card"
-          ),
-          280
-        )}
       </div>
     </section>
   `;
