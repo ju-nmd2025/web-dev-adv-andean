@@ -361,6 +361,10 @@ textarea {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
+.scope-grid > .reveal {
+  height: 100%;
+}
+
 .intro-card {
   min-height: 240px;
   padding: 28px;
@@ -873,6 +877,12 @@ textarea {
 .condition-card {
   padding: 28px;
   text-align: left;
+}
+
+.scope-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 .tone-cyan {
