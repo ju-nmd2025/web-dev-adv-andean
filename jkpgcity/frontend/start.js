@@ -622,41 +622,47 @@ function renderPurpose(slide) {
   const icons = ["target", "activity", "boxes"];
 
   return `
-    <section class="slide slide-standard">
-      ${reveal(labelPill(slide.topLabel), 20)}
-      ${reveal(`<h2 class="section-title">${escapeHtml(slide.title)}</h2>`, 100)}
-      ${reveal(accentLine(), 170)}
+    <section class="slide slide-standard centered-intro">
+      <div class="center-stack">
+        ${reveal(labelPill(slide.topLabel), 20)}
+        ${reveal(`<h2 class="section-title center">${escapeHtml(slide.title)}</h2>`, 100)}
+      </div>
 
-      <div class="purpose-grid">
-        ${reveal(glassCard(
+      <div class="purpose-layout">
+        ${reveal(
+          glassCard(
           `
-            ${iconTile("target", "gradient-cyan")}
-            <div class="purpose-heading">Purpose</div>
-            ${accentLine("short")}
+            <div class="purpose-topline">Purpose</div>
+            <div class="purpose-heading">Research Aim</div>
             <p class="purpose-copy">${escapeHtml(slide.purpose)}</p>
-            <div class="purpose-footnote">
+            <div class="purpose-footnote purpose-footnote-center">
               <span class="purpose-dot"></span>
               Core research objective
             </div>
           `,
           "purpose-card"
-        ), 220)}
+        ),
+          220
+        )}
 
-        <div class="purpose-question-list">
+        <div class="purpose-question-grid">
           ${slide.questions
             .map((question, index) =>
-              reveal(glassCard(
+              reveal(
+                glassCard(
                 `
-                  <div class="question-index-wrap">
-                    <div class="question-index">${String(index + 1).padStart(2, "0")}</div>
+                  <div class="question-card-top">
                     <div class="question-icon-box">
                       ${iconMarkup(icons[index], "question-icon")}
                     </div>
+                    <div class="question-index">RQ${index + 1}</div>
                   </div>
                   <div class="question-text">${escapeHtml(question)}</div>
                 `,
                 "purpose-question-card"
-              ), 290 + index * 80)
+              ),
+                290 + index * 80
+              )
             )
             .join("")}
         </div>

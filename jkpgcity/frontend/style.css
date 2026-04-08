@@ -541,21 +541,35 @@ textarea {
   height: 56px;
 }
 
-.purpose-grid {
+.purpose-layout {
   display: grid;
   width: 100%;
-  grid-template-columns: 310px minmax(0, 1fr);
-  gap: 22px;
-  margin-top: 30px;
+  gap: 18px;
+  margin-top: 28px;
   text-align: left;
 }
 
 .purpose-card {
-  padding: 28px;
-  border-color: rgba(34, 211, 238, 0.45);
+  padding: 26px 28px 28px;
+  border-radius: 28px;
+  border-color: rgba(34, 211, 238, 0.1);
   background:
-    radial-gradient(circle at 18% 20%, rgba(0, 190, 210, 0.16), transparent 28%),
-    linear-gradient(180deg, var(--panel), var(--panel-deep));
+    linear-gradient(to right, rgba(34, 211, 238, 0.08) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(34, 211, 238, 0.08) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(16, 22, 36, 0.84), rgba(7, 11, 20, 0.9));
+  background-size: 100% 100%, 100% 100%, auto;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.02),
+    0 16px 40px rgba(0, 0, 0, 0.18);
+}
+
+.purpose-topline {
+  color: var(--cyan);
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
 }
 
 .purpose-heading,
@@ -581,6 +595,7 @@ textarea {
   color: #e2e8f0;
   font-size: clamp(17px, 1.2vw, 20px);
   line-height: 1.45;
+  max-width: 1040px;
 }
 
 .purpose-footnote {
@@ -589,6 +604,10 @@ textarea {
   border-top: 1px solid rgba(255, 255, 255, 0.1);
   color: #94a3b8;
   font-size: 18px;
+}
+
+.purpose-footnote-center {
+  border-top-color: rgba(34, 211, 238, 0.1);
 }
 
 .purpose-dot {
@@ -601,38 +620,40 @@ textarea {
   vertical-align: middle;
 }
 
-.purpose-question-list {
+.purpose-question-grid {
   display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 16px;
 }
 
 .purpose-question-card {
-  display: flex;
-  align-items: center;
-  gap: 18px;
-  min-height: 118px;
-  padding: 18px 20px;
+  min-height: 220px;
+  padding: 20px 22px 22px;
   text-align: left;
+  border-radius: 28px;
+  border-color: rgba(34, 211, 238, 0.1);
+  background:
+    linear-gradient(to right, rgba(34, 211, 238, 0.08) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(34, 211, 238, 0.08) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(13, 18, 31, 0.8), rgba(8, 11, 20, 0.88));
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.02),
+    0 16px 40px rgba(0, 0, 0, 0.16);
 }
 
-.question-index-wrap {
+.question-card-top {
   display: flex;
-  align-items: end;
+  align-items: center;
+  justify-content: space-between;
   gap: 12px;
-  align-self: stretch;
 }
 
 .question-index {
-  display: grid;
-  place-items: center;
-  width: 72px;
-  height: 72px;
-  border-radius: 16px;
-  background: linear-gradient(135deg, #22d3ee, #0ea5e9);
-  color: white;
+  color: var(--cyan);
   font-family: "Space Grotesk", sans-serif;
-  font-size: 26px;
+  font-size: 28px;
   font-weight: 700;
+  letter-spacing: -0.04em;
 }
 
 .question-icon-box {
@@ -653,6 +674,7 @@ textarea {
 }
 
 .question-text {
+  margin-top: 28px;
   color: #e2e8f0;
   font-size: clamp(18px, 1.25vw, 22px);
   line-height: 1.35;
@@ -766,16 +788,18 @@ textarea {
 .setup-card {
   min-height: 150px;
   padding: 24px 22px;
+  border-radius: 28px;
 }
 
 .setup-card-side {
   background:
-    linear-gradient(180deg, rgba(28, 37, 92, 0.74), rgba(12, 18, 46, 0.88)),
-    linear-gradient(180deg, var(--panel), var(--panel-deep));
+    linear-gradient(to right, rgba(34, 211, 238, 0.08) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(34, 211, 238, 0.08) 1px, transparent 1px),
+    linear-gradient(180deg, rgba(13, 18, 31, 0.8), rgba(8, 11, 20, 0.88));
+  border-color: rgba(34, 211, 238, 0.1);
   box-shadow:
-    inset 0 0 0 1px rgba(255, 255, 255, 0.04),
-    0 20px 50px rgba(0, 0, 0, 0.28),
-    0 0 36px rgba(37, 99, 235, 0.1);
+    inset 0 0 0 1px rgba(255, 255, 255, 0.02),
+    0 16px 40px rgba(0, 0, 0, 0.16);
 }
 
 .setup-mini-icon {
@@ -785,8 +809,9 @@ textarea {
   height: 42px;
   margin: 0 auto 14px;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.08);
-  color: #9fdfff;
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--cyan);
+  box-shadow: inset 0 0 0 1px rgba(34, 211, 238, 0.12);
 }
 
 .setup-icon {
@@ -802,7 +827,7 @@ textarea {
 .setup-copy {
   max-width: 320px;
   margin: 10px auto 0;
-  color: #c6d0e8;
+  color: #d7e2ef;
   font-size: clamp(16px, 1.05vw, 18px);
   line-height: 1.45;
 }
@@ -976,10 +1001,15 @@ textarea {
 
 .condition-card-inner {
   width: min(100%, 420px);
+  padding: 14px 16px 18px;
   display: grid;
   align-content: start;
   justify-items: start;
   row-gap: 0;
+  border-radius: 28px;
+  border: 1px solid rgba(34, 211, 238, 0.06);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.01));
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.015);
 }
 
 .condition-metric {
@@ -1727,7 +1757,7 @@ textarea {
   .data-grid,
   .task-spotlight,
   .patterns-grid,
-  .purpose-grid,
+  .purpose-question-grid,
   .toc-grid {
     grid-template-columns: 1fr;
   }
