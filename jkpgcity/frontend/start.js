@@ -209,6 +209,53 @@ const slides = [
     duration: "20",
     durationLabel: "Minutes",
     durationSub: "Minute limit",
+    orbitImages: [
+      {
+        src: "./img/JU_Hero-startsida_1.jpg",
+        ring: "outer",
+        size: 76,
+        angle: 18,
+        duration: 34,
+        delay: -5,
+        position: "54% 40%",
+      },
+      {
+        src: "./img/VInnare-2025.jpg",
+        ring: "outer",
+        size: 72,
+        angle: 146,
+        duration: 38,
+        delay: -16,
+        position: "50% 40%",
+      },
+      {
+        src: "./img/_JU_7909.webp",
+        ring: "mid",
+        size: 64,
+        angle: 298,
+        duration: 28,
+        delay: -9,
+        position: "55% 38%",
+      },
+      {
+        src: "./img/puff_ansokan.jpg",
+        ring: "mid",
+        size: 60,
+        angle: 214,
+        duration: 31,
+        delay: -20,
+        position: "56% 42%",
+      },
+      {
+        src: "./img/springinspi.jpg",
+        ring: "inner",
+        size: 54,
+        angle: 118,
+        duration: 24,
+        delay: -11,
+        position: "52% 42%",
+      },
+    ],
   },
   {
     id: 10,
@@ -779,6 +826,25 @@ function renderTask(slide) {
             <div class="task-ring task-ring-outer"></div>
             <div class="task-ring task-ring-mid"></div>
             <div class="task-ring task-ring-inner"></div>
+            ${slide.orbitImages
+              .map(
+                (item, index) => `
+                  <div
+                    class="task-orbit task-orbit-${escapeHtml(item.ring)}"
+                    style="--orbit-size:${item.size}px;--orbit-angle:${item.angle}deg;--orbit-duration:${item.duration}s;--orbit-delay:${item.delay}s"
+                  >
+                    <div class="task-orbit-node">
+                      <img
+                        class="task-orbit-image"
+                        src="${escapeHtml(item.src)}"
+                        alt=""
+                        style="object-position:${escapeHtml(item.position)}"
+                      />
+                    </div>
+                  </div>
+                `
+              )
+              .join("")}
             <div class="task-ring-core">
               <img class="task-ring-logo" src="./img/ju_logo_white.svg" alt="Jönköping University logo" />
             </div>
