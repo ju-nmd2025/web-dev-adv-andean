@@ -377,7 +377,7 @@ textarea {
 .toc-grid {
   width: 100%;
   max-width: 1320px;
-  margin: 42px auto 0;
+  margin: 64px auto 0;
   display: grid;
   gap: 40px;
   grid-template-columns: repeat(2, minmax(0, 1fr));
