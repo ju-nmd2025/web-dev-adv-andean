@@ -1172,6 +1172,7 @@ textarea {
   top: 2%;
   width: 94%;
   aspect-ratio: 1;
+  --orbit-push: 6px;
 }
 
 .task-orbit-mid {
@@ -1179,6 +1180,7 @@ textarea {
   top: 22%;
   width: 58%;
   aspect-ratio: 1;
+  --orbit-push: 10px;
 }
 
 .task-orbit-inner {
@@ -1190,13 +1192,13 @@ textarea {
 
 .task-orbit-node {
   position: absolute;
-  top: 0;
+  top: var(--orbit-offset, 0px);
   left: 50%;
   width: var(--orbit-size);
   height: var(--orbit-size);
   overflow: hidden;
   border-radius: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%, calc(-50% - var(--orbit-push, 0px)));
   border: 2px solid rgba(220, 244, 255, 0.92);
   box-shadow:
     0 0 0 4px rgba(34, 211, 238, 0.08),
@@ -1216,12 +1218,13 @@ textarea {
   left: 12%;
   top: 32%;
   width: 38%;
+  z-index: 4;
   aspect-ratio: 1;
   display: grid;
   place-items: center;
   overflow: hidden;
   border-radius: 50%;
-  background: rgba(235, 246, 255, 0.9);
+  background: #edf6ff;
   box-shadow:
     0 0 50px rgba(133, 212, 255, 0.25),
     inset 0 0 0 1px rgba(255, 255, 255, 0.55);
