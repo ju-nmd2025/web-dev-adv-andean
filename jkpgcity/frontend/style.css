@@ -762,14 +762,6 @@ textarea {
   border-radius: 999px;
 }
 
-.setup-subtitle {
-  max-width: 760px;
-  margin: 14px auto 0;
-  color: #8ea0c8;
-  font-size: clamp(16px, 1.1vw, 19px);
-  line-height: 1.45;
-}
-
 .setup-stage {
   position: relative;
   display: grid;
@@ -941,19 +933,6 @@ textarea {
   margin-top: 34px;
   padding: 0;
   overflow: hidden;
-}
-
-.conditions-hero-title {
-  max-width: 760px;
-  margin: 14px auto 0;
-  color: #8ea0c8;
-  font-family: "Manrope", sans-serif;
-  font-size: clamp(16px, 1.1vw, 19px);
-  font-weight: 400;
-  line-height: 1.45;
-  letter-spacing: 0;
-  text-transform: none;
-  text-align: center;
 }
 
 .conditions-board {
@@ -1910,10 +1889,6 @@ textarea {
     gap: 18px;
   }
 
-  .conditions-hero-title {
-    font-size: clamp(22px, 6vw, 28px);
-  }
-
   .conditions-board {
     grid-template-columns: 1fr;
     min-height: 0;
@@ -1944,10 +1919,6 @@ textarea {
 
   .task-orbit-node {
     transform: translate(-50%, -50%) scale(0.82);
-  }
-
-  .setup-subtitle {
-    max-width: 100%;
   }
 
   .setup-column {

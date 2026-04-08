@@ -130,8 +130,6 @@ const slides = [
     topLabel: "METHODOLOGY",
     title: "Study setup",
     variant: "setup",
-    subtitle:
-      "Controlled comparison between manual and AI-assisted webpage layout design",
     setup: [
       {
         icon: "panels-top-left",
@@ -160,7 +158,6 @@ const slides = [
     topLabel: "COMPARISON",
     title: "Conditions",
     variant: "conditions",
-    headline: "Original Figma tool\nvs Figma Make",
     conditions: [
       {
         n: 1,
@@ -621,6 +618,7 @@ function renderPurpose(slide) {
       <div class="center-stack">
         ${reveal(labelPill(slide.topLabel), 20)}
         ${reveal(`<h2 class="section-title center">${escapeHtml(slide.title)}</h2>`, 100)}
+        ${reveal(accentLine(), 170)}
       </div>
 
       <div class="purpose-layout">
@@ -714,7 +712,7 @@ function renderSetup(slide) {
       <div class="center-stack">
         ${reveal(labelPill(slide.topLabel), 20)}
         ${reveal(`<h2 class="section-title center">${escapeHtml(slide.title)}</h2>`, 100)}
-        ${reveal(`<p class="setup-subtitle">${escapeHtml(slide.subtitle ?? "")}</p>`, 170)}
+        ${reveal(accentLine(), 170)}
       </div>
 
       <div class="setup-stage">
@@ -789,7 +787,7 @@ function renderConditions(slide) {
       <div class="center-stack">
         ${reveal(labelPill(slide.topLabel), 20)}
         ${reveal(`<h2 class="section-title center">${escapeHtml(slide.title)}</h2>`, 100)}
-        ${reveal(`<p class="conditions-hero-title">${escapeHtml(slide.headline ?? slide.title)}</p>`, 170)}
+        ${reveal(accentLine(), 170)}
       </div>
 
       <div class="conditions-stage">
@@ -856,6 +854,7 @@ function renderTask(slide) {
       <div class="center-stack">
         ${reveal(labelPill(slide.topLabel), 20)}
         ${reveal(`<h2 class="section-title center">${escapeHtml(slide.title)}</h2>`, 100)}
+        ${reveal(accentLine(), 170)}
       </div>
 
       <div class="task-spotlight">
