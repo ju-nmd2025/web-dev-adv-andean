@@ -332,7 +332,7 @@ const slides = [
   {
     id: 11,
     topLabel: "PREDICTIONS",
-    title: "Expected patterns",
+    title: "Expected Patterns",
     variant: "patterns",
     bullets: [
       "The AI-assisted condition may help participants get started faster",
@@ -982,6 +982,7 @@ function renderData(slide) {
       <div class="center-stack">
         ${reveal(labelPill(slide.topLabel), 20)}
         ${reveal(`<h2 class="section-title center">${escapeHtml(slide.title)}</h2>`, 100)}
+        ${reveal(accentLine(), 170)}
       </div>
 
       <div class="data-orbit-stage">
@@ -1038,6 +1039,7 @@ function renderPatterns(slide) {
       <div class="center-stack">
         ${reveal(labelPill(slide.topLabel), 20)}
         ${reveal(`<h2 class="section-title center">${escapeHtml(slide.title)}</h2>`, 100)}
+        ${reveal(accentLine(), 170)}
       </div>
 
       <div class="patterns-stage">
