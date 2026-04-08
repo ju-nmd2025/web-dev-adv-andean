@@ -165,32 +165,25 @@ const slides = [
     topLabel: "COMPARISON",
     title: "Conditions",
     variant: "conditions",
+    headline: "Original Figma tool\nvs Figma Make",
     conditions: [
       {
         n: 1,
-        title: "Manual",
-        text: "Manual webpage layout design",
-        tone: "tone-blue",
-        circle: "circle-blue",
-        check: "check-blue",
-        bullets: [
-          "Traditional design tools",
-          "Full designer control",
-          "Standard workflow",
-        ],
+        eyebrow: "Original workflow",
+        title: "Figma tool",
+        metric: "01",
+        metricLabel: "Direct manual workflow",
+        text: "Participants design the webpage directly with standard Figma tools and manual editing.",
+        chips: ["Frames", "Auto layout", "Components", "Manual placement"],
       },
       {
         n: 2,
-        title: "AI-Assisted",
-        text: "AI-assisted webpage layout design",
-        tone: "tone-cyan",
-        circle: "circle-cyan",
-        check: "check-cyan",
-        bullets: [
-          "AI generation tools",
-          "Human-AI collaboration",
-          "Assisted workflow",
-        ],
+        eyebrow: "AI-supported workflow",
+        title: "Figma Make",
+        metric: "02",
+        metricLabel: "Generation-assisted path",
+        text: "Participants use Figma Make to generate and refine a layout from prompts before adjusting it manually.",
+        chips: ["Prompting", "Generation", "Iteration", "Refinement"],
       },
     ],
     footer:
@@ -204,22 +197,18 @@ const slides = [
     tasks: [
       {
         icon: "target",
-        title: "Design Task",
-        text: "Create a webpage layout for a given brief",
+        title: "Task:",
+        text: "Replicate a desktop webpage layout from a reference image",
       },
       {
-        icon: "activity",
-        title: "Complexity",
-        text: "Comparable complexity across conditions",
-      },
-      {
-        icon: "check-circle-2",
-        title: "Scenario",
-        text: "Realistic design scenario",
+        icon: "timer",
+        title: "Time:",
+        text: "Fixed 20-minute limit; non-completion recorded as a time-out",
       },
     ],
-    duration: "Fixed",
-    durationSub: "Per Condition",
+    duration: "20",
+    durationLabel: "Minutes",
+    durationSub: "Minute limit",
   },
   {
     id: 10,
@@ -431,32 +420,30 @@ function renderCover(slide) {
 }
 
 function renderToc(slide) {
-  const rows = [];
-
-  for (let i = 0; i < slide.items.length; i += 2) {
-    rows.push(slide.items.slice(i, i + 2));
-  }
+  const splitIndex = Math.ceil(slide.items.length / 2);
+  const columns = [slide.items.slice(0, splitIndex), slide.items.slice(splitIndex)];
 
   return `
     <section class="slide slide-toc">
       ${reveal(`<h2 class="section-title center">${escapeHtml(slide.title)}</h2>`, 40)}
       <div class="toc-grid">
-        ${rows
+        ${columns
           .map(
-            (pair, rowIndex) => `
-              <div class="toc-row">
-                ${pair
+            (column, columnIndex) => `
+              <div class="toc-column">
+                ${column
                   .map(
-                    (item, idx) => `
+                    (item, itemIndex) => `
                       ${reveal(
-                        glassCard(
                         `
-                          <div class="toc-number">${String(rowIndex * 2 + idx + 1).padStart(2, "0")}</div>
-                          <div class="toc-text">${escapeHtml(item)}</div>
+                          <article class="toc-item">
+                            <div class="toc-number">${String(columnIndex * splitIndex + itemIndex + 1).padStart(2, "0")}</div>
+                            <div class="toc-copy">
+                              <div class="toc-text">${escapeHtml(item)}</div>
+                            </div>
+                          </article>
                         `,
-                        "toc-card"
-                      ),
-                        120 + (rowIndex * 2 + idx) * 55
+                        120 + (columnIndex * splitIndex + itemIndex) * 55
                       )}
                     `
                   )
@@ -703,6 +690,8 @@ function renderSetup(slide) {
 }
 
 function renderConditions(slide) {
+  const [leftCondition, rightCondition] = slide.conditions;
+
   return `
     <section class="slide slide-standard centered-intro">
       <div class="center-stack">
@@ -710,43 +699,67 @@ function renderConditions(slide) {
         ${reveal(`<h2 class="section-title center">${escapeHtml(slide.title)}</h2>`, 100)}
       </div>
 
-      <div class="conditions-grid">
-        ${slide.conditions
-          .map((condition, index) =>
-            reveal(glassCard(
-              `
-                <div class="condition-head">
-                  <div class="condition-number ${condition.circle}">${condition.n}</div>
-                  <div class="condition-title">${escapeHtml(condition.title)}</div>
-                </div>
-                <div class="condition-text">${escapeHtml(condition.text)}</div>
-                <ul class="condition-list">
-                  ${condition.bullets
-                    .map(
-                      (bullet) => `
-                        <li>
-                          ${iconMarkup("check-circle-2", `condition-check ${condition.check}`)}
-                          <span>${escapeHtml(bullet)}</span>
-                        </li>
-                      `
-                    )
-                    .join("")}
-                </ul>
-              `,
-              `condition-card ${condition.tone}`
-            ), 180 + index * 100)
-          )
-          .join("")}
-      </div>
+      <div class="conditions-stage">
+        ${reveal(
+          `
+            <h3 class="conditions-hero-title">${escapeHtml(slide.headline ?? slide.title)}</h3>
+          `,
+          140
+        )}
 
-      ${reveal(glassCard(
-        `
-          <span class="footer-highlight">Counterbalanced presentation order</span>
-          <span class="footer-dot">•</span>
-          <span>Same design brief and requirements</span>
-        `,
-        "conditions-footer"
-      ), 390)}
+        ${reveal(
+          `
+            <div class="conditions-board">
+              <article class="condition-card condition-card-left">
+                <div class="condition-card-inner">
+                  <div class="condition-section-label">${escapeHtml(leftCondition.eyebrow)}</div>
+                  <div class="condition-panel-title">${escapeHtml(leftCondition.title)}</div>
+                  <div class="condition-metric">${escapeHtml(leftCondition.metric)}</div>
+                  <div class="condition-metric-label">${escapeHtml(leftCondition.metricLabel)}</div>
+                  <div class="condition-text">${escapeHtml(leftCondition.text)}</div>
+                  <div class="condition-chip-label">Tools / interaction</div>
+                  <div class="condition-chip-row">
+                    ${leftCondition.chips
+                      .map(
+                        (chip) => `
+                          <span class="condition-chip">${escapeHtml(chip)}</span>
+                        `
+                      )
+                      .join("")}
+                  </div>
+                </div>
+              </article>
+
+              <div class="condition-cube-wrap" aria-hidden="true">
+                <div class="condition-cube-container">
+                  <video class="condition-cube-video" autoplay muted playsinline preload="auto" src="./img/copy_DBA6C485-17B5-4AA9-8AFD-6B23A910B5D6.mov"></video>
+                </div>
+              </div>
+
+              <article class="condition-card condition-card-right">
+                <div class="condition-card-inner">
+                  <div class="condition-section-label">${escapeHtml(rightCondition.eyebrow)}</div>
+                  <div class="condition-panel-title">${escapeHtml(rightCondition.title)}</div>
+                  <div class="condition-metric">${escapeHtml(rightCondition.metric)}</div>
+                  <div class="condition-metric-label">${escapeHtml(rightCondition.metricLabel)}</div>
+                  <div class="condition-text">${escapeHtml(rightCondition.text)}</div>
+                  <div class="condition-chip-label">Tools / interaction</div>
+                  <div class="condition-chip-row">
+                    ${rightCondition.chips
+                      .map(
+                        (chip) => `
+                          <span class="condition-chip">${escapeHtml(chip)}</span>
+                        `
+                      )
+                      .join("")}
+                  </div>
+                </div>
+              </article>
+            </div>
+          `,
+          180
+        )}
+      </div>
     </section>
   `;
 }
@@ -759,36 +772,38 @@ function renderTask(slide) {
         ${reveal(`<h2 class="section-title center">${escapeHtml(slide.title)}</h2>`, 100)}
       </div>
 
-      <div class="task-grid">
-        <div class="task-list">
+      <div class="task-spotlight">
+        ${reveal(
+          `<div class="task-rings-panel">
+            <div class="task-rings-glow"></div>
+            <div class="task-ring task-ring-outer"></div>
+            <div class="task-ring task-ring-mid"></div>
+            <div class="task-ring task-ring-inner"></div>
+            <div class="task-ring-core">
+              <img class="task-ring-logo" src="./img/ju_logo_white.svg" alt="Jönköping University logo" />
+            </div>
+          </div>`,
+          160
+        )}
+
+        <div class="task-callouts">
           ${slide.tasks
             .map((item, index) =>
-              reveal(glassCard(
+              reveal(
                 `
-                  <div class="task-card-row">
-                    ${iconMarkup(item.icon, "task-icon")}
-                    <div>
+                  <article class="task-callout">
+                    <div class="task-callout-head">
+                      ${iconMarkup(item.icon, "task-icon")}
                       <div class="task-title">${escapeHtml(item.title)}</div>
-                      <div class="task-copy">${escapeHtml(item.text)}</div>
                     </div>
-                  </div>
+                    <div class="task-copy">${escapeHtml(item.text)}</div>
+                  </article>
                 `,
-                "task-card"
-              ), 180 + index * 80)
+                220 + index * 85
+              )
             )
             .join("")}
         </div>
-
-        ${reveal(`<div class="task-timer-wrap">
-          <div class="task-timer-ring">
-            <div class="task-timer-core">
-              ${iconMarkup("timer", "timer-icon")}
-              <div class="timer-main">${escapeHtml(slide.duration)}</div>
-              <div class="timer-label">Duration</div>
-              <div class="timer-sub">${escapeHtml(slide.durationSub)}</div>
-            </div>
-          </div>
-        </div>`, 280)}
       </div>
     </section>
   `;
@@ -1031,6 +1046,63 @@ function renderCurrentSlide() {
       },
     });
   }
+
+  initPingPongVideos();
+}
+
+function initPingPongVideos() {
+  const videos = slideContent.querySelectorAll(".condition-cube-video");
+
+  videos.forEach((video) => {
+    let reverseFrame = 0;
+    let direction = 1;
+
+    const cancelReverse = () => {
+      if (reverseFrame) {
+        cancelAnimationFrame(reverseFrame);
+        reverseFrame = 0;
+      }
+    };
+
+    const stepReverse = () => {
+      if (video.paused && direction === 1) {
+        cancelReverse();
+        return;
+      }
+
+      if (direction !== -1) {
+        cancelReverse();
+        return;
+      }
+
+      if (video.currentTime <= 0.04) {
+        video.currentTime = 0;
+        direction = 1;
+        cancelReverse();
+        video.play().catch(() => {});
+        return;
+      }
+
+      video.currentTime = Math.max(0, video.currentTime - 1 / 60);
+      reverseFrame = requestAnimationFrame(stepReverse);
+    };
+
+    video.addEventListener("ended", () => {
+      direction = -1;
+      cancelReverse();
+      reverseFrame = requestAnimationFrame(stepReverse);
+    });
+
+    video.addEventListener("play", () => {
+      if (direction === 1) {
+        cancelReverse();
+      }
+    });
+
+    video.addEventListener("loadeddata", () => {
+      video.play().catch(() => {});
+    });
+  });
 }
 
 function next() {
